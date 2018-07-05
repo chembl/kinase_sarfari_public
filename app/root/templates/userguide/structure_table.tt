@@ -1,0 +1,56 @@
+    <h1>Structure Search Results Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>Ref</th>
+      <td>Select 1 reference (Ref) kinase domain structure using radio boxes. Use drop down menu above table to view or download structure.</td>
+    </tr>
+    <tr>
+      <th>Mob</th>
+      <td>Optionally select multiple mobile (Mob) kinase domain structure. Each mobile structure will be rotated and superimposed on to the reference structure. Use drop down menu above table to view or download structural superposition.</td>
+    </tr>
+    <tr>
+      <th>Px</th>
+      <td>Internal structural domain identifier</td>
+    </tr>
+    <tr>
+      <th>Code</th>
+      <td>PDB code and chain</td>
+    </tr>
+    <tr>
+      <th>Ligand</th>
+      <td>Compound ligands found in structure of kinase domain</td>
+    </tr>       
+    <tr>
+      <th>Resolution &#197</th>
+      <td>Resolution is a measure of the quality of the data that has been collected on the crystal containing the protein.</td>
+    </tr>
+    <tr>
+      <th>R-Value</th>
+      <td>R-value is the measure of the quality of the atomic model obtained from the crystallographic data.</td>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <td>Short name for kinase protein domain</td>
+    </tr>                
+    <tr>
+      <th>Drugs</th>
+      <td>Number of FDA approved compounds associated with kinase protein domain</td>
+    </tr>
+    <tr>
+      <th>Bioactivities</th>
+      <td>Number of bioactivity data points associated with kinase domain</td>
+    </tr>       
+    <tr>
+      <th>Compounds</th>
+      <td>Number of compounds associated with kinase protein domain</td>
+    </tr> 
+         
+    </table>
+   </p>
+  
+  

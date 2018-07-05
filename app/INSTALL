@@ -1,0 +1,175 @@
+***************************************************************************
+*
+* Name:         INSTALL
+* 
+* Purpose:      To describe how to install the Kinase Sarfari Application
+*
+* Author:       Mark Davies
+*               mdavies@ebi.ac.uk
+*
+* Date:         20/08/2009
+*
+***************************************************************************
+*
+* Data Version  KinaseSarfari_01
+* Perl          >= 5.8.x
+*
+***************************************************************************
+
+
+1. Pre Install Requirements
+---------------------------
+
+Make sure you have imported the kinase sarfari Oracle database. Follow the
+instructions provided in database/INSTALL-DATABASE
+
+
+2. Install Perl (Optional)
+--------------------------
+
+Required Perl Version: >= 5.8.x (If you decide to use Perl version 5.10.0 
+please see note at end of file)
+
+If you do not have an appropriate version of Perl installed or would like 
+to install Perl in a new location proceed with the following steps, 
+otherwise move on to stage 3.
+
+$> wget http://www.cpan.org/src/perl-5.8.9.tar.gz
+$> tar -xzf perl-5.8.9.tar.gz 
+$> cd perl-5.8.9
+
+If you wish to install Perl in a location other /usr/local include the 
+-Dprefix option below. An example replacement for INSTALL_LOCATION would 
+be /opt/perl
+
+$> sh Configure -de -Dprefix=INSTALL_LOCATION
+$> make
+$> make test
+$> make install
+
+
+3. Install Kinase Sarfari Application 
+-------------------------------------
+
+Download kinasesarfari.tar.gz
+
+Make sure you replace PATH-TO-PERL in the commands below with the 
+appropriate value. If you are using the system Perl it will probably be
+/usr/bin/perl (root required). If you have installed a new version of Perl
+in /opt/perl it will be /opt/perl/bin/perl.
+
+$> tar -zxf kinasesarfari.tar.gz
+$> cd kinasesarfari/
+$> PATH-TO-PERL Makefile.PL
+$> make installdeps
+
+If you encounter any problems when installing modules installing you may 
+need to open the CPAN shell to investigate further. To restart install run
+the following:
+
+$> make realclean
+$> PATH-TO-PERL Makefile.PL
+$> make installdeps
+
+DBD::Oracle may require a CPAN force install depending on the privileges 
+set up on the Oracle database being used. Before doing so ensure you can 
+independently connect to the database (e.g. using sqlplus)
+
+
+4. Setup Database Connection
+----------------------------
+   
+Add database connection parameters to configuration file. You need to 
+change the following lines in sarfari.yml file:
+   
+   database:
+       driver: Oracle
+       name: DATABASE_NAME
+       username: USERNAME
+       password: PASSWORD
+   
+You need to update DATABASE_NAME, USERNAME and PASSWORD with local 
+settings. 
+
+
+5. Setup BLAST EXE Location
+---------------------------
+   
+Depending on the platform the application is being installed on you 
+will need to set the BLAST path executable. Test to see if you already
+have an appropriate executable on your system by running the following 
+command:
+
+$> blastall -
+
+You should be presented with the blastall options. If the command is not
+found please see note at end of file, which tells you how to obtain the 
+BLAST executable. 
+
+Edit the blastall location in the app/sarfari.yml file. 
+
+CHANGE
+
+	blast:
+    	exe: /nfs/panda/chembl/blastall
+
+TO
+
+	blast:
+    	exe: <YOUR-LOCATION>/blastall
+
+
+6. Test Application Works
+-------------------------
+
+Test application works by using the built-in Catalyst test server:
+
+   >PATH-TO-PERL script/sarfari_server.pl -k -f
+
+If no errors have occurred point browser at URL output by sarfari_server.pl
+
+Follow steps in docs/kinasesarfari_testing.doc (or .pdf) to test 
+applications basic functionality 
+
+
+* Note on Perl 5.10.0
+---------------------
+
+You can use Perl version 5.10.0, however after downloading and extracting
+the source code the following patch needs to be applied to toke.c line 
+692 (diff format):
+
+ #else
+     parser->nexttoke = 0;
+ #endif
++    parser->error_count = oparser ? oparser->error_count : 0;
+     parser->copline = NOLINE;
+     parser->lex_state = LEX_NORMAL;
+     parser->expect = XSTATE;
+
+For more details on this issue refer to: 
+http://www.nntp.perl.org/group/perl.perl5.changes/2008/02/msg21106.htm
+
+
+* Note on Obtaining BLAST Executable
+------------------------------------
+
+All files are available to download from the ncbi website: 
+
+ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/
+
+In the following commands RELEASE and PLATFORM need to replaced with 
+the correct values. Refer to link above to determine what these are 
+for your system.
+
+Download:
+
+$> wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/blast-RELEASE-PLATFORM.tar.gz
+
+Extract: 
+
+$> tar -zxf blast-RELEASE-PLATFORM.tar.gz
+
+Test:
+
+$> blast-RELEASE/bin/blastall - 

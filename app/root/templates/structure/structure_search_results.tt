@@ -1,0 +1,189 @@
+[%# 
+    $Id: structure_search_results.tt 795 2012-07-02 09:11:12Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<form name="form1" method="post" action="" id="structureForm">
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    3D Structure Search Results: [% target_details.size %] Hit[% IF target_details.size != 1 %]s[% END %]
+  </div>
+    
+  <ul id="bodyHeaderMenu">   
+	[% IF target_details.size > 0 %]
+	
+	<li>
+      <select id="viewSuperposition" name="user_select">
+	    <option selected="selected" value="ignore">Please select....</option>
+        <option value="vanilla-View">View Vanilla Superposition</option>
+        <option value="ec_cbs-View">View Canonical ECF Superposition</option>
+        <option value="ec_ctl-View">View C-terminal ECF Superposition</option>
+
+	    <option value="ignore2">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</option>
+		
+        <option value="vanilla-Download">Download Vanilla Superposition</option>
+        <option value="ec_cbs-Download">Download Canonical ECF Superposition</option>
+        <option value="ec_ctl-Download">Download C-terminal ECF Superposition</option>
+
+      </select>
+    </li>
+	
+    [% END %]
+  </ul>
+  
+</div>
+
+[% PROCESS "shared/validation_error_white.tt" %]
+
+<table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+      <th class="slim">Ref</th>
+      <th class="slim">Mob</th>
+	  <th>Px</th>
+      <th>Code</th>
+      <th>Ligand</th>
+	  <th>Resolution &#197</th>
+      <th>R-Value</th>	  
+	  <th>Name</th>
+	  <th>Drugs</th>
+	  <th>Bioactivities</th>
+	  <th>Compounds</th>
+    </tr>
+  </thead>
+  <tbody>
+
+	<tr id="setNumericCols">
+	  <td></td>
+	  <td></td>
+	  <td>1</td>
+	  <td></td>
+	  <td></td>
+	  <td>1</td>
+	  <td>1</td>
+	  <td></td>
+	  <td>1</td>
+	  <td>1</td>
+	  <td>1</td>
+    </tr>
+
+    [%- FOREACH p IN target_details -%]    
+	<tr>
+      <td><input type="radio" name="pdb_ref" value="[% p.sunid_px %]" /></td>
+      <td><input type="checkbox" name="pdb_mob" value="[% p.sunid_px %]" /></td>
+	  <td>[% p.sunid_px %]</td>
+	  <td>
+	    <a href="[% c.config.external_url.PDBe %][% p.pdb_code %]">[% p.pdb_code %]:[% p.pdb_chain %]</a>
+	  </td>
+	  
+	  <td>
+	    [% SET px  = p.sunid_px %]
+        [% IF pdb_ligands.$px %]
+          [% FOREACH lig = pdb_ligands.$px %]
+        <a href="[% c.uri_for('/') %]report/compound/[% lig.sarregno %]">[% IF lig.het_code.length > 10 %][% lig.het_code.substr(0,8) %]..[% ELSE %][% lig.het_code %][% END %]</a>
+        <br/>
+          [% END %]
+        [% END %]
+      </td>
+	  
+	  <td>[% p.resolution | format('%.2f') %]</td>
+	  <td>[% p.r_value  | format('%.2f') %]</td>
+	  <td>	 
+	    <a href="[% c.uri_for('/') %]report/protein/[% p.dom_id %]">[% p.gene_domain_name %]<a>
+	  </td> 	  
+	  <td>[% p.ds_count %]</td>	  	
+	  <td>
+	    [% IF p.bio_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/all/B/[% p.dom_id %]/All">[%  p.bio_all %][% ELSE %][% END %]
+      </td>
+ 	  <td>
+	    [% IF p.comp_all > 0 %] <a href="[% c.uri_for('/') %]compound/report/chembl/[% p.dom_id %]/domid">[% p.comp_all %][% ELSE %][% END %]
+	  </td>
+	</tr>
+    [%- END -%]
+  </tbody>
+</table>
+
+</form>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){ 
+    
+	// Set up tablesorter, external jquery lib
+	$("#protSearchTable").tablesorter({
+	    'headers': {          
+            0: { 'sorter': false },
+			1: { 'sorter': false }
+        },
+		'textExtraction': 'complex'
+	});	
+	
+    
+     // Reduce table size if ie
+	 if ($.browser.msie){
+	     $('#protSearchTable').css({width:'95%'});
+     }
+	
+	// Do not display setNumericCols
+	// Appears to bug in digit columns starting with 0 
+	$("#setNumericCols").hide();
+	
+
+	// Hightlight row when hover 
+	$('#protSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+	
+	// Checkbox 
+	$('#parentCheckbox').click(function(){
+	    var parent_checkbox_status = this.checked;
+
+		$('.childCheckBox').each(function(){
+		    this.checked = parent_checkbox_status;
+		})
+	});
+	
+	
+	// Display or download structure superposition 
+	$('#viewSuperposition').change(function(){	
+
+	    var user_select = this.value;
+
+	    if(user_select != 'ignore' && user_select != 'ignore2'){
+
+            if(validateSuperpos(document.getElementById('structureForm'))){
+                $("#structureForm option:first").attr('selected', 'selected' );          
+                return;
+            }
+				
+            $('#structureForm').attr('action', '[% c.uri_for('/structure/pdb_fit') %]' );
+			
+			//Extra information carried in value, requires splitting
+	        var details = user_select.split("-");				    			
+			
+            if(details[1] == 'Download'){
+                $('#structureForm').removeAttr('target');			
+			    $('#structureForm').submit();
+			}
+			else{					    
+                var target_name = 'super_pop_up';
+  		        popUp = window.open('',target_name,'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=720,height=600');	               
+                $('#structureForm').attr('target', target_name );
+                $('#structureForm').submit();
+                popUp.focus();
+			}
+        }
+		
+		// Set drop-down back to Please select...
+        $("#structureForm option:first").attr('selected', 'selected' );
+    });
+
+}); 
+</script>

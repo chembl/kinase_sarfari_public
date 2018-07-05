@@ -1,0 +1,107 @@
+    <h1>Binding Site Search Results Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th><img class="userguide_image"src="[% c.uri_for('/static/images/userguide/checkbox.png') %]" border="0"/></th>
+      <td>Check box for selection of domains to carry on to another part of the system. To select all domains, check the box in the table header domains.</td>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <td>Short name for kinase protein domain</td>
+    </tr>
+    <tr>
+      <th>Organism</th>
+      <td>Kinase protein domain organism</td>
+    </tr>
+    <tr>
+      <th>Level 2, Level 3, Level 4</th>
+      <td>Kinone classification, where Level 4 is the most detailed level in classification hierarchy</td>
+    </tr>
+    <tr>
+      <th>Approved Drugs</th>
+      <td>Number of FDA approved compounds associated with kinase protein domain</td>
+    </tr>
+    <tr>
+      <th>Bioactivity</th>
+      <td>Number of bioactivity data points associated with kinase domain</td>
+    </tr>       
+    <tr>
+      <th>Compounds</th>
+      <td>Number of compounds associated with kinase protein domain</td>
+    </tr> 
+    <tr>
+      <th>ND Score</th>
+      <td>Neighbourhood Density (ND) Score is an estimated measure of the likely inherent selectivity risk associated with a kinase, calculated based on site-distances. The higher the Neighbourhood Density score, the more likely a kinase is to have selectivity issues.</td>
+    </tr>
+    <tr>
+      <th>Pairwise Distances</th>
+      <td>Click on 'View' to see the BLAST alignment between your query and the target</td>
+    </tr>           
+    </table>
+    </p>
+  
+    <p class="spacer"></p>
+
+    <h1>Pairwise Distance Search Results Column Explanations</h1>
+    <p>
+    Columns duplicated between Binding Site Search Results and Pairwise Distance Search Results are not listed below.
+    
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>Distance</th>
+      <td>A physicochemical distance used to compare the binding sites of any two kinases, based on an internal physicochemical scoring matrix and the binding site definition.</td>
+    </tr>
+    <tr>
+      <th>Site Alignment</th>
+      <td>Click 'View' to open up binding site pairwise alignment</td>
+    </tr>           
+    </table>
+    </p>
+
+    <p class="spacer"></p>
+
+    <h1>Pairwise Alignment Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>Position</th>
+      <td>Position in master kinase sequence alignment</td>
+    </tr>
+    <tr>
+      <th>Weight</th>
+      <td>Significance of binding site position</td>
+    </tr>           
+    <tr>
+      <th>Target 1</th>
+      <td>Name of kinase domain target 1</td>
+    </tr>           
+    <tr>
+      <th>Residue 1</th>
+      <td>Residue of kinase domain target 1 found at this position in master kinase sequence alignment</td>
+    </tr>
+    <tr>
+      <th>Distance</th>
+      <td>Physicochemical distance between residues from target 1 and target 2 at this position in master kinase sequence alignment</td>
+    </tr>  
+    <tr>
+      <th>Residue 2</th>
+      <td>Residue of kinase domain target 2 found at this position in master kinase sequence alignment</td>
+    </tr> 
+    <tr>
+      <th>Target 2</th>
+      <td>Name of kinase domain target 2</td>
+    </tr>              
+    </table>
+    </p>    

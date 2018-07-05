@@ -1,0 +1,344 @@
+[%# 
+    $Id: bio_home.tt 602 2010-04-12 09:50:59Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<table id="searchMenu">
+  <tr>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+  </tr> 
+  <tr>
+	<td id="bio_submenu1"><img src="[% c.uri_for('/static/images/logos/bioact_target.png') %]" /><br /><h3>Protein Target Search</h3></td>
+	<td id="bio_submenu2"><img src="[% c.uri_for('/static/images/logos/bioact_both.png') %]" /><br /><h3>Protein Target and Compound Search</h3></td>
+	<td id="bio_submenu3"><img src="[% c.uri_for('/static/images/logos/bioact_comp.png') %]" /><br /><h3>Compound Search</h3></td>
+  </tr>	
+</table>
+
+<div id="searchForms" class="roundBox">
+		
+	<!-- START: Target Based Search -->
+	<div class="slimBody">
+	
+	<!-- START: Target Based Search -->
+	
+	<h1>Protein Target Search</h1>
+	
+	<form name="target" method="post" action="[% c.uri_for('/bioactivity/search') %]" enctype="multipart/form-data" >
+	
+      [% PROCESS "shared/validation_error.tt" %]
+  
+	   <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>Protein Target Input</th>
+	        <th>Bioactivity Search Type</th>
+          </tr>
+        </thead>
+        <tbody>
+	      <tr>
+
+			<td>
+			  <br/><br/>
+	          <textarea cols="30" rows="6"  name="targetList" >[% IF domids %][% domids %][% END %]</textarea>
+	          <br/><br/>
+  	          <input type="file" size="20" name="targetFile">
+			  <br/><br/>
+            </td>			
+
+			<td>
+         	  <select name="targetType">
+		        <option value="all" selected="selected">All Fields</option>
+                <option value="name" >Domain Name</option>			  
+		        <option value="domid" [% IF domids %]selected="selected"[% END %]>Domain id</option>
+	          </select>
+            </td>
+						
+          </tr>
+        </tbody>
+      </table>
+	  	
+    <input type="button" onclick="runTargetSearch(this.form)" value="Start Search"></input>
+	<input type="hidden" name="advanced" value="1"  />
+	<input type="reset" value="Clear Form" />
+	
+	</form>
+	
+	</div>
+	<!-- END: Target Interactive Based Search -->
+
+
+
+	<!-- START: Compound and Target Based Search -->
+	<div class="slimBody">
+	
+	<h1>Compound and Target Based Bioactivity Search</h1>
+	
+	<form name="compoundTarget" method="post" action="[% c.uri_for('/bioactivity/search')%]" enctype="multipart/form-data" >
+	
+      [% PROCESS "shared/validation_error.tt" %]
+  
+	  <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>Protein Target Input</th>
+	        <th>Bioactivity Search Type</th>
+
+            <th>Compound Target Input</th>
+	        <th>Bioactivity Search Type</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+	      <tr>
+
+			<td>
+			  <br/><br/>
+	          <textarea cols="20" rows="6"  name="targetList" ></textarea>
+	          <br/><br/>
+  	          <input type="file" size="20" name="targetFile">
+			  <br/><br/>
+            </td>			
+
+			<td>
+         	  <select name="targetType">
+                <option value="all" selected="selected">All Fields</option>
+                <option value="name" >Domain Name</option>		  
+		        <option value="domid">Domain id</option>
+	          </select>
+            </td>
+
+			<td>
+			  <br/><br/>
+	          <textarea cols="20" rows="6"  name="compoundList" >[% IF regnos %][% regnos %][% END %]</textarea>
+	          <br/><br/>
+  	          <input type="file" size="20" name="compoundFile">
+			  <br/><br/>
+            </td>			
+
+			<td>
+	          <select name="compoundType">
+	            <option value="regno" selected="selected">Reg. No.</option>
+		        <option value="syn">Synonyms</option>
+	        	<option value="ext">External Reg. No.</option>					  
+	          </select>
+            </td>
+          </tr>
+		  <tr>
+			<th colspan="4">
+			Bioactivity Search Filters
+            </th>
+          </tr>
+		  <tr>
+			<td colspan="4" align="center">
+			[% PROCESS "bioactivity/bio_filter.tt" %]
+            </td>							
+          </tr>
+        </tbody>
+      </table>
+
+	
+    <input type="button" onclick="runCompoundTargetSearch(this.form)" value="Start Search"></input>
+	<input type="reset" value="Clear Form" />
+	
+	</form>
+	
+	</div>
+	<!-- END: Compound and Target Based Search -->
+
+
+
+	<!-- START: Compound Based Search -->
+	<div class="slimBody">
+	
+	<h1>Compound Based Bioactivity Search</h1>
+	
+	<form name="compound" method="post" action="[% c.uri_for('/bioactivity/search') %]" enctype="multipart/form-data" >
+      
+      [% PROCESS "shared/validation_error.tt" %]
+             
+	  <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+
+            <th>Compound Target Input</th>
+	        <th>Bioactivity Search Type</th>
+			<th>Assay Type</th>
+			
+          </tr>
+        </thead>
+        <tbody>
+	      <tr>
+
+			<td>
+			  <br/><br/>
+	          <textarea cols="30" rows="6"  name="compoundList" >[% IF regnos %][% regnos %][% END %]</textarea>
+	          <br/><br/>
+  	          <input type="file" size="20" name="compoundFile">
+			  <br/><br/>
+            </td>			
+
+			<td>
+         	 
+	<select name="compoundType">
+	    <option value="regno" selected="selected">Reg. No.</option>
+		<option value="syn">Synonyms</option>
+		<option value="ext">External Reg. No.</option>					  
+	</select>
+	         
+            </td>
+			<td>
+			  <br/><br/>
+			  <ul>
+			    <li>
+                  <input type="checkbox" name="assayTypeA" value="A" checked="checked"></input>
+                  <span class="widgetText">ADME (A)</span>
+			    </li>
+			    <li>
+                  <input type="checkbox" name="assayTypeB" value="B" checked="checked"></input>
+                  <span class="widgetText">Biochemical (B)</span>
+			    </li>
+			    <li>
+                  <input type="checkbox" name="assayTypeF" value="F" checked="checked"></input>
+                  <span class="widgetText">Functional (F)</span>
+			    </li>
+			  </ul>
+              <br/><br/>			  
+            </td>		    
+
+          </tr>
+		  <tr>
+			<th colspan="3">
+			Bioactivity Search Filters
+            </th>
+          </tr>
+		  <tr>
+			<td colspan="3" align="center">
+			[% PROCESS "bioactivity/bio_filter.tt" %]
+            </td>							
+          </tr>
+        </tbody>
+      </table>
+
+	
+    <input type="button" onclick="runCompoundSearch(this.form)" value="Start Search"></input>
+	<input type="reset" value="Clear Form" />	
+	
+  
+	</form>
+	
+	</div>
+	<!-- END: Compound Based Search -->
+
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+//Global filter counter
+var filterCount = 0;
+
+// Not used by may be of use
+function createTargetDropDown(target){
+
+    $.getJSON("[% c.uri_for('/bioactivity/target_request') %]",{target: target}, function(j){
+        var options = '';
+		for (var i = 0; i < j.length; i++) {
+		    options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
+        }
+        $('#targetFilterDomain' + filterCount).html(options);
+		$('#targetFilterDomain' + filterCount).trigger('click');
+		
+    })	
+	
+    $('select#targetFilterDomain' + filterCount).click(function(){
+        $.getJSON("[% c.uri_for('/bioactivity/activity_request') %]",{id: $(this).val()}, function(j){
+            var options = '';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i].optionValue + '">' + j[i].optionDisplay + '</option>';
+            }
+            $('#targetFilterAct' + filterCount).html(options);
+            $('#targetFilterAct' + filterCount + ' option:first').attr('selected', 'selected');
+        })
+    })
+	
+	$('#targetFilterChk' + filterCount).attr("checked", "checked");
+}
+
+// Not used by may be of use
+function addUserFilterRow(){
+    
+	filterCount++;	
+	
+	var filter = document.createElement('div');
+	
+	$(filter).attr("id","filterRow"+filterCount);
+	$(filter).attr("class","filterRow");
+	$(filter).append("<input  id='targetFilterChk"    + filterCount + "' name='filterChk"    + filterCount + "' type='checkbox' />"+
+                     "<select id='targetFilterDomain" + filterCount + "' name='targetList' />"+
+                     "<select id='targetFilterAct"    + filterCount + "' name='filterAct"    + filterCount + "' />"+
+	                 "<select id='targetFilterOp"     + filterCount + "' name='filterOp"     + filterCount + "'>"+
+	                 "  <option value='NA'></option> <option value='='>=</option> <option value='>'>&gt;</option> <option value='>='>&gt;=</option> <option value='<'>&lt;</option> <option value='<='>&lt;=</option>"+
+					 "</select>"+
+	                 "<input  id='targetFilterVal"    + filterCount + "' name='filterVal"    + filterCount + "' />");	  
+ 
+	$('#filterTable').append(filter);
+}
+
+
+function quickSearchSetup(target){
+
+    $('#quickSearchDomid').attr('value',target);	
+    $('#quickSearchSubmit').attr("disabled",0);
+}
+
+
+//On document load 
+$(document).ready(function(){    
+	
+	// Stored in sarfari.js and shared between home pages
+    setupMenuDisplay([% IF regnos %]2[% END %]);
+
+    //Setup autocomplete
+    $("#autoTarget").autocomplete(
+        "[% c.uri_for('/bioactivity/auto_target') %]",
+        {
+            delay:10,
+            minChars:2,
+            matchSubset:1,
+            matchContains:1,
+            cacheLength:10,
+            onItemSelect:selectItem,
+            onFindValue:findValue,
+            formatItem:formatItem,
+            autoFill:true
+        });
+    
+    // Clear any errors in textareaError when page loads textareaError
+    $('.textareaError').attr("value", "");
+});
+
+function findValue(li) {
+    if( li == null ) return alert("No match!");
+    addToAutoList(li);
+}
+
+
+function addToAutoList(data){
+    //addUserFilterRow();
+    //createTargetDropDown(data.selectValue);
+	quickSearchSetup(data.selectValue);
+}
+
+
+function selectItem(li) {
+    findValue(li);
+}
+
+
+function formatItem(row) {
+    return row[0];
+}
+</script>

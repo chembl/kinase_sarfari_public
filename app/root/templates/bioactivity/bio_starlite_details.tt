@@ -1,0 +1,153 @@
+[%# 
+    $Id: bio_starlite_details.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+  
+  <div class="slimBody">		
+	
+	
+   <h2 class="mini">Bioactivity Report Card: [% bio_details.0.activity_id %]</h2>
+	
+  <!--Document summary-->	
+  
+  <h2>Document Summary</h2>
+
+<table class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+ <thead>
+  <tr>
+    <th>Document Id</th>
+    <td>
+      <a href="[% c.config.chembl_siteurl %]/index.php/doc/inspect/CHEMBL[% bio_details.0.batch.star_doc.doc_id %]" target="_blank">CHEMBL[% bio_details.0.batch.star_doc.doc_id %]</a>
+    </td>
+  </tr>
+  
+  <tr>
+    <th>Journal</th>
+    <td>[% bio_details.0.batch.star_doc.journal %]</td>
+  </tr>
+  
+  <tr>
+    <th>Year</th>
+    <td>[% bio_details.0.batch.star_doc.year %]</td>
+  </tr>
+  
+  <tr>
+    <th>Volume</th>
+    <td>[% bio_details.0.batch.star_doc.volume %]</td>
+  </tr>
+  
+  <tr>
+    <th>Issue</th>
+    <td>[% bio_details.0.batch.star_doc.issue %]</td>
+  </tr>
+  
+  <tr>
+    <th>First Page</th>
+    <td>[% bio_details.0.batch.star_doc.first_page %]</td>
+  </tr>
+
+  <tr>
+    <th>Last Page</th>
+    <td>[% bio_details.0.batch.star_doc.last_page %]</td>
+  </tr>
+
+  <tr>
+    <th>Pubmed</th>
+    <td><a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=pubmed&cmd=Retrieve&list_uids=[% bio_details.0.batch.star_doc.pubmed_id %]" target="_blank">[% bio_details.0.batch.star_doc.pubmed_id %]</a></td>
+  </tr>
+    
+  </thead>
+  
+</table>
+  
+  
+  
+  <!--Assay summary-->	
+
+  <h2>Assay Summary</h2>
+
+  <table class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+
+  <tr>
+    <th>Assay Id</th>
+    <td>
+      <a href="[% c.config.chembl_siteurl %]/index.php/assay/inspect/CHEMBL[% bio_details.0.star_assay.sl_assay_id %]" target="_blank">CHEMBL[% bio_details.0.star_assay.sl_assay_id %]</a>
+    </td>
+  </tr>
+
+  <tr>
+    <th>Assay Type</th>
+    <td>[% bio_details.0.star_assay.assay_type %]</td>
+  </tr>
+  
+  <tr>
+    <th>Description</th>
+    <td>[% bio_details.0.star_assay.description %]</td>
+  </tr>
+  
+  </thead>
+  </table>  
+  
+
+  <!--Activity summary-->	
+  
+  <h2>Activity Summary</h2>
+
+  <table class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+  
+  <tr>
+    <th>Activity Id</th>
+    <td>[% bio_details.0.activity_id %]</td>
+  </tr>
+
+  <tr>
+    <th>CBID</th>
+    <td>[% bio_details.0.cmpb_id %]</td>
+  </tr>
+
+  <tr>
+    <th>Activity Type</th>
+    <td>[% bio_details.0.activity_type %]</td>
+  </tr>
+
+  <tr>
+    <th>Relation</th>
+    <td>[% bio_details.0.relation %]</td>
+  </tr>
+
+  <tr>
+    <th>Reported Value</th>
+    <td>[% bio_details.0.reported_value %]</td>
+  </tr>
+
+  <tr>
+    <th>Reported Unit</th>
+    <td>[% bio_details.0.reported_unit %]</td>
+  </tr>
+
+  <tr>
+    <th>Standard Value</th>
+    <td>[% bio_details.0.standard_value %]</td>
+  </tr>
+
+  <tr>
+    <th>Standard Unit</th>
+    <td>[% bio_details.0.standard_unit %]</td>
+  </tr>
+  
+  <tr>
+    <th>Activity Comment</th>
+    <td>[% bio_details.0.sl_activity_comment %]</td>
+  </tr>
+
+  </thead>
+  
+</table>
+
+  </div>
+</div>

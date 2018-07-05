@@ -1,0 +1,341 @@
+[%# 
+    $Id: home.tt 674 2010-09-24 12:17:23Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div class="spacer"></div>	
+<div class="spacer"></div>
+
+<div id="waitToDisplay">
+				  
+<div id="slideShow" class="roundBox">
+
+  <h1>Welcome to [% c.config.family %] SARfari</h1>
+  <p>[% c.config.family %] SARfari is an integrated chemogenomics workbench focussed on [% c.config.family %]s. The system incorporates and links [% c.config.family %] sequence, structure, compounds and screening data</p>
+  
+  <br/> 
+  <br/> 
+   
+  <table border="0" border align="center" cellspacing="0" cellpadding="0">
+    <tr>
+       <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/family') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/FamilyBrowsing.png') %]" alt="Family Browsing" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/FamilyBrowsing.arrow.png') %]" alt="Family Browsing" border="0"/>
+        </a> 
+      </td>
+      
+      <td rowspan="8" width="550" bgcolor="#ffffff" valign="top">
+      
+  <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>Access target information via [% c.config.family %] [% c.config.name %] classification</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+	  <tr>
+      <td class="leftalign fixwidth">
+		  <img src="[% c.uri_for('/static/images/home/family_browsing.png') %]" />
+		</td>
+	    <td class="leftalign">          
+          <ul class="discList">
+            <li>Browse [% c.config.family %] groups, subgroups and families</li>
+            <li>Access target annotation summaries, report cards and alignments</li>
+            <li>Link through to screening and compound data</li>
+          </ul>
+	    </td>
+	  </tr>
+    </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="tablesorterSimple" width="400" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>Search [% c.config.family %] [% c.config.name %] protein target data</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+      <img src="[% c.uri_for('/static/images/home/target_search.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Sequence search via BLAST</li>
+            <li>Comprehensive synonyms search</li>
+            <li>Access target annotation summaries, report cards and alignments</li>
+            <li>Link through to screening and compound data</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  
+  <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>[% c.config.family %] binding site-based views and comparisons</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+      <img src="[% c.uri_for('/static/images/home/binding_site.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Examine different views on inhibitor binding sites</li>
+            <li>Perform binding site comparisons and Neighbourhood Density analyses</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>[% c.config.family %] [% c.config.name %] 3D structural data</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+      <img src="[% c.uri_for('/static/images/home/pdb_navigation.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Search and retrieve structural summaries</li>
+	        <li>View structure superpositions</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  
+   <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>Access [% c.config.family %] [% c.config.name %] screening data</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+          <img src="[% c.uri_for('/static/images/home/bioactivity_search.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Search with targets, compounds or both</li>
+	        <li>Apply filters to bioactivity data</li>
+	        <li>View and analyse cross-reactivity data</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div> 		  
+
+  <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>Search [% c.config.family %] [% c.config.name %] compound data</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+          <img src="[% c.uri_for('/static/images/home/compound_search.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Perform substructure or similarity searches</li>
+	        <li>Access compound summaries and report cards</li>
+	        <li>Link through to screening and target data</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>      
+
+   <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>[% c.config.family %] [% c.config.name %] User Guide contains</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+          <img src="[% c.uri_for('/static/images/home/userguide.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Application and project background details</li>
+	        <li>Detailed workflow diagrams for the web interface</li>
+	        <li>List of useful terms and concepts</li>
+	        <li>FAQ section</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div> 
+
+   <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>Download [% c.config.family %] [% c.config.name %] data</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+          <img src="[% c.uri_for('/static/images/home/download.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            <li>Links to [% c.config.family %] [% c.config.name %] flatfile downloads</li>
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  
+   <div>
+    <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="0" >
+      <thead>
+        <tr>
+        <td colspan="2"><h1>[% c.config.family %] [% c.config.name %] Contents</h1></td>         
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="leftalign fixwidth">
+          <img src="[% c.uri_for('/static/images/home/kinase_ebi_compass.png') %]" />
+    </td>
+      <td class="leftalign">          
+          <ul class="discList">
+            [%- WHILE (ap = app_counts.next) -%]
+            <li>[% ap.display_name%]: [% ap.data_count%]</li>          
+            [% END %]  	        
+            <li>Version: [% c.config.version %]</li>          
+          </ul>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div> 
+   
+    </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/protein') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/ProteinSearch.png') %]" alt="Protein Search" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/ProteinSearch.arrow.png') %]" alt="Protein Search" border="0"/>
+        </a> 
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/site') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/BindingSite.png') %]" alt="Binding Site" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/BindingSite.arrow.png') %]" alt="Binding Site" border="0"/>
+        </a>       
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/structure') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/3DStructure.png') %]" alt="3D Structure" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/3DStructure.arrow.png') %]" alt="3D Structure" border="0"/>
+        </a>       
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/bioactivity') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/BioactivitySearch.png') %]" alt="Bioactivity Searchh" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/BioactivitySearch.arrow.png') %]" alt="Bioactivity Searchh" border="0"/>
+        </a>       
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/compound') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/CompoundSearch.png') %]" alt="Compound Search" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/CompoundSearch.arrow.png') %]" alt="Compound Search" border="0"/>
+        </a>       
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('/userguide') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/UserGuide.png') %]" alt="User Guide" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/UserGuide.arrow.png') %]" alt="User Guide" border="0"/>
+        </a>         
+      </td>
+    </tr>
+    <tr>
+      <td class="titleMenu" bgcolor="#ffffff">
+        <a  href="[% c.uri_for('downloads') %]">
+          <img class="bar-no-arrow" src="[% c.uri_for('/static/images/bars/Downloads.png') %]" alt="User Guide" border="0"/>
+          <img class="bar-arrow" src="[% c.uri_for('/static/images/bars/Downloads.arrow.png') %]" alt="User Guide" border="0"/>
+        </a>         
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){
+
+	$(".bar-arrow").hide();
+    
+	$("#slideShow div").hide();
+
+	$("#slideShow div").eq(8).show();
+
+    $('#waitToDisplay').css('visibility','visible');
+	
+    $('.titleMenu').hover(
+        function(){
+        	$(this).find(".bar-no-arrow").hide();
+            $(this).find(".bar-arrow").show();
+        	
+		    var index = $(".titleMenu").index(this);
+			$("#slideShow div").eq(8).hide();
+			$("#slideShow div").eq(index).show();		
+        }, 
+        function(){
+            //$(this).removeClass('menuHover');
+            $(this).find(".bar-arrow").hide();
+            $(this).find(".bar-no-arrow").show();
+                      
+		    var index = $(".titleMenu").index(this);
+			$("#slideShow div").eq(index).hide();			
+            $("#slideShow div").eq(8).show();
+        }
+    );
+});	 
+</script>

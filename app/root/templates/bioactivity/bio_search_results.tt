@@ -1,0 +1,186 @@
+[%# 
+    $Id: bio_search_results.tt 526 2010-01-22 13:33:18Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    Bioactivity Search Results: [% bio_search_details.query_count || 0 %] Hit[% IF bio_search_details.query_count != 1 %]s[% END %]    
+  </div>
+    
+  <ul id="bodyHeaderMenu">
+    <li>
+	  [% IF pager.last_page > 1 %]
+      <a href="[% c.uri_for('/') %]bioactivity/results/[% jobid %]/[% pager.first_page %]/[% sorted_on %]/[% sort_way %]"> << <a>
+	  [% END %]
+    </li>
+    <li>
+	  [% IF pager.current_page > 1 %]
+      <a href="[% c.uri_for('/') %]bioactivity/results/[% jobid %]/[% pager.previous_page %]/[% sorted_on %]/[% sort_way %]"> < <a>
+	  [% END %]	  
+    </li>
+    <li>
+	[% IF pager.last_page > 1 %]
+	<select id="userPager" name="page">        
+	  [% SET counter = 1 -%]
+	  [% WHILE counter <= pager.last_page  -%]
+  	  <option [% IF counter == pager.current_page %]selected="selected"[% END %] value="[% counter %]">[% counter %]</option>
+	  [% counter = counter+1 -%]
+	  [% END -%]
+    </select>
+	[% ELSE %]
+    
+    [% IF pager.last_page > 1 %]
+      [% pager.current_page %]
+    [% END %]
+    
+	[% END %]
+    </li>
+    <li>
+	  [% IF pager.current_page < pager.last_page %]
+      <a href="[% c.uri_for('/') %]bioactivity/results/[% jobid %]/[% pager.next_page %]/[% sorted_on %]/[% sort_way %]"> > <a>
+	  [% END %]	
+    </li>
+    <li>
+	  [% IF pager.last_page > 1 %]
+      <a href="[% c.uri_for('/') %]bioactivity/results/[% jobid %]/[% pager.last_page %]/[% sorted_on %]/[% sort_way %]"> >> <a>
+	  [% END %]
+    </li>
+	
+	[% IF bio_search_details.query_count > 0 %]
+    <li>
+	  <form action="[% c.uri_for('/') %]bioactivity/function/[% jobid %]" name="bioSearchFuncForm">
+	  <select id="bioSearchFuncSelect" name="bioSearchFunc">        
+  	    <option selected="selected" value="ignore">Please select....</option>		
+        <option value="dom">Display Proteins</option>
+        <option value="reg">Display Compound</option>
+		<option value="txt">Download Data (tab-delimited)</option>
+	  </select>
+	  </form>
+    </li>
+    [% END %]	
+	
+  </ul>
+
+</div>
+
+
+
+<table id="bioSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+	  <th id="activity_id">Activity ID</th>
+	  <th id="display_name">Display Name</th>
+	  <th id="sarregno">Reg. No.</th>
+	  <th id="activity_type">Activity Type</th>
+	  <th id="assay_type">Assay Type</th>
+	  <th id="relation">Relation</th>
+	  <th id="standard_value">Value</th>
+	  <th id="standard_unit">Unit</th>
+	  <th id="activity_comment">Comment</th>
+	  <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    [%- WHILE (b = bio_details.next) -%]    
+	<tr>
+	  <td>[% b.activity_id %]</td>
+	  <td><a href="[% c.uri_for('/') %]report/protein/[% b.dom_id %]">[% b.display_name %]<a></td>
+	  <td><a href="[% c.uri_for('/') %]report/compound/[% b.sarregno %]">[% b.sarregno %]<a></td>
+	  <td>[% b.activity_type %]</td>
+	  <td>[% b.assay_type %]</td>
+	  <td>[% b.relation %]</td>
+	  <td>[% IF b.standard_value.defined %][% b.standard_value | sarfari_round %][% END %]</td>
+	  <td>[% b.standard_unit %]</td>
+	  <td>[% b.activity_comment %]</td>
+	  <td><a class="bioDetailsLink" href="[% c.uri_for('/') %]bioactivity/details/[% b.source %]/[% b.activity_id %]">Details<a></td>
+    </tr>
+    [%- END -%]
+  </tbody>
+</table>
+
+
+<script type="text/javascript" charset="utf-8">
+var GLOBAL_SORTED_ON         = "[% sorted_on %]";
+var GLOBAL_PAGE              = [% pager.current_page %];
+var GLOBAL_SORT_WAY          = "[% sort_way %]";
+var GLOBAL_JOBID             = [% jobid %];
+var GLOBAL_BASE_RESULT_URL   = "[% c.uri_for("/bioactivity/results") %]";
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/bioactivity/function") %]";
+var GLOBAL_FIRST_PAGE        = 1;
+
+$(document).ready(function(){
+	 
+	 // Set up tablesorter view, not actually using tablesorter.js
+	 pseudo_tablesorter();
+	 
+	 // Reduce table size if ie
+	 if ($.browser.msie){
+	     $('#bioSearchTable').css({width:'95%'});
+     }
+
+    $('#userPager').change(function(){
+	    var new_page = this.value;
+        var url = GLOBAL_BASE_RESULT_URL + "/" + GLOBAL_JOBID + "/" + new_page + "/" + GLOBAL_SORTED_ON + "/" + GLOBAL_SORT_WAY;
+        location.href = url;
+    })
+	
+	$('#bioSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+	// User function select 
+    $('#bioSearchFuncSelect').change(function(){
+
+        var user_select = this.value;
+
+    	$("#bioSearchFuncSelect option:first").attr('selected', 'selected' );
+        
+		if(user_select != 'ignore'){
+            var url = GLOBAL_BASE_FUNCTION_URL + "/" + user_select + "/" + GLOBAL_JOBID;
+            location.href = url;
+		}
+    })
+	
+	// Details pop-up
+    $('.bioDetailsLink').click(function(){
+	    this.target = 'pop_up'
+		popUp = window.open(this.href,this.target,'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=800,height=400');
+		popUp.focus();		
+    })	
+	
+}); 
+
+// Does not do any sorting just sets up table to provide consistent look
+// Sorting is carried out server side
+function pseudo_tablesorter() {
+
+    $("thead tr th:not(:last)").addClass('header');
+	
+    if(GLOBAL_SORT_WAY == 'asc'){
+        $("#"+GLOBAL_SORTED_ON).addClass('headerSortDown');
+	}
+	else{
+        $("#"+GLOBAL_SORTED_ON).addClass('headerSortUp');
+	}
+	
+	$("thead tr th:not(:last)").click(function(){
+
+		var sort_way = (GLOBAL_SORTED_ON == this.id) 
+		    ? (GLOBAL_SORT_WAY == 'asc') 
+			   ? 'desc'
+			   : 'asc'
+			: 'asc';
+	    
+		var new_sort_on = this.id;		
+        var url = GLOBAL_BASE_RESULT_URL + "/" + GLOBAL_JOBID + "/" + GLOBAL_FIRST_PAGE + "/" + new_sort_on + "/" + sort_way;
+        location.href = url;
+	});
+}
+</script>

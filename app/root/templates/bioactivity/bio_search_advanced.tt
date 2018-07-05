@@ -1,0 +1,257 @@
+[%# 
+    $Id: bio_search_advanced.tt 499 2010-01-13 21:44:05Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<script type="text/javascript">
+
+// Query Data Structure
+var menu = new Object();
+[% FOREACH domain = advanced_data.keys.sort -%]
+menu[[% advanced_data.$domain.dom_id %]] = '<option value="All" selected="selected">All</option>[% FOREACH type = advanced_data.$domain.activity_type.keys.sort %][% NEXT IF type.match('\'') %]<option value="[% type %]">[% type %]</option>[% END -%]';
+[% END -%]
+
+
+$(document).ready(function(){
+	//User function select 
+	// $('.filterDom').change(function(){
+	//   
+	// });
+    	
+	hideAndOrColumn();
+   	
+	$('#bioInputsRadio').click(function(){
+
+	    $('#compInputs > *').each(function(){		   
+		   $(this).attr("disabled", "disabled");
+		})
+
+	    $('#bioInputs > *').each(function(){		   
+		   $(this).removeAttr("disabled");
+		})
+		
+		hideAndOrColumn();	
+	});
+	
+    $('#compInputsRadio').click(function(){
+	    $('#bioInputs > *').each(function(){
+		   $(this).attr("disabled", "disabled");
+		})
+	    
+		$('#compInputs > *').each(function(){		   
+		   $(this).removeAttr("disabled");
+		})		
+		
+		showAndOrColumn();
+	});
+
+    resetPage();        
+}); 
+
+
+function hideAndOrColumn(){
+	    
+    $('.compAndOr').each(function(){		   
+        $(this).hide();
+	});
+		
+}
+
+
+function showAndOrColumn(){
+	    
+    $('.compAndOr').each(function(){		   
+        $(this).show();
+	});
+		
+}
+
+
+// Update type drop-down menu
+function createTypeOptions(id, num){
+	
+	// Clear existing activity type list
+	$('#type'+num).empty();
+
+	// Add new activity type list
+    $('#type'+num).html(menu[id]);
+	
+	// Remove disable columns
+    $('#type'+num).removeAttr("disabled");
+	$('#operator'+num).removeAttr("disabled");
+	$('#text'+num).removeAttr("disabled");
+	$('#andor'+num).removeAttr("disabled");
+	
+	// Check row
+    $('#filtercheck'+num).attr("checked", "checked");
+}
+
+
+//Go to compounds page
+function displayCompounds(){
+    document.userSelect.action  = '[% c.uri_for('/get_compounds') %]';
+}
+//----------------
+
+
+//Go to compounds page
+function displayCrossreact(){
+    document.userSelect.action  = '[% c.uri_for('/get_crossreactivity') %]';
+}
+//----------------
+
+
+//Reset everything
+function resetPage(){
+    for(var i = 10; i > 0; i--){
+        
+        document.getElementById('filtercheck' + i ).checked = false;
+        
+        document.getElementById('domain' + i ).selectedIndex = 0;        
+        
+        document.getElementById('type' + i ).disabled      = true;
+        $('#type'+i).empty();
+                        
+        document.getElementById('operator' + i ).disabled      = true;
+        document.getElementById('operator' + i ).selectedIndex = 0;
+        
+        document.getElementById('text' + i ).disabled = true;  
+        document.getElementById('text' + i ).value = '';
+
+        document.getElementById('andor' + i).selectedIndex = 0;
+        document.getElementById('andor' + i).disabled      = true;
+
+        $('.textareaError').val('');
+   }
+
+    $('#bioInputsRadio').click();
+}
+//----------------
+
+</script>
+
+<!--Bioactivity Target Query-->
+
+
+<div class="roundBox">
+		
+	<!-- START: Compound Search --> 
+	<div class="slimBody">
+	
+      <h1>Advanced Bioactivity Query</h1>
+      <form name="target" method="post" action="[% c.uri_for('/bioactivity/advanced') %]" enctype="multipart/form-data" >
+      
+            [% PROCESS "shared/validation_error.tt" %]
+    
+            <table class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+			<thead>
+            <tr>
+              <th></th>
+              <th>Target</th>
+              <th>Activity Type</th>
+              <th>Operator</th>
+              <th>Value</th>
+              <th class="compAndOr">And / Or</th>
+			  </tr>
+			</thead>
+            <tbody>
+			[% SET filters = 10 %][% WHILE filters > 0 %]
+              <tr>
+			    
+				<td>
+                  <input id="filtercheck[% filters %]" type="checkbox" name="filterChk[% filters %]" />
+                </td>
+                
+				<td class="summaryData">                  
+				  <select id="domain[% filters %]" class="filterDom" name="filterDom[% filters %]" onchange="createTypeOptions(this.value, [% filters %]);">
+                    <option>-</option>
+                    [% FOREACH q = advanced_data.keys.sort -%]
+                    <option value="[% advanced_data.$q.dom_id %]">[% q %]</option>
+					[% END -%]
+                  </select>				  
+                </td>
+                
+				<td id="typelist[% filters %]">
+                  <select id="type[% filters %]" name="filterAct[% filters %]" disabled="disabled"></select>
+                </td>
+                
+				<td>
+                  <select id="operator[% filters %]" name="filterOp[% filters %]" disabled="disabled">
+                    <option selected="selected" value="NA"></option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                    <option value=">=">&gt;=</option>
+                    <option value="<">&lt;</option>
+                    <option value="<=">&lt;=</option>
+                  </select>
+                </td>
+                
+				<td>
+                  <input id="text[% filters %]" type="text" name="filterVal[% filters %]" size="5" disabled="disabled" onchange="validateNumericInput(this.form, this.name, this.value)" />
+                </td>
+				
+                <td class="compAndOr">
+                  <select id="andor[% filters %]" name="filterAndOr[% filters %]" disabled="disabled">
+                    <option value="USER_AND" selected="selected">AND</option>
+                    <option value="OR">OR</option>
+                  </select>
+                </td>
+				
+              </tr>               
+			  [% filters = filters - 1 %]
+              [% END %]
+            <tbody>			  
+            </table>
+
+    
+	[% FOREACH domain = advanced_data.keys -%]
+      [% IF advanced_data.$domain.dom_id > 0 -%]
+    <input type="hidden" name="all_domains" value="[% advanced_data.$domain.dom_id %]" />
+      [% END -%]
+    [% END -%]
+	
+    
+      <table class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+          <tr>
+            <th><input id="bioInputsRadio" type="radio" name="bioQueryType" value="bio" checked="checked"/> Retrieve Bioactivity Data</th>
+            <th><input id="compInputsRadio" type="radio" name="bioQueryType" value="comp" /> Retrieve Compound Data</th>
+            <th><input id="crossInputsRadio" type="radio" name="bioQueryType" value="cross"/> Retrieve Cross-Reactivity Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div id="bioInputs">
+                <input type="submit" name="submit" value="Start Search"  />
+              </div>
+            </td>
+            <td>
+              <div id="compInputs"> 
+                <input type="submit" name="submit" value="Start Search" />
+              </div>
+            </td>
+            <td>
+              <div> 
+                <input type="submit" name="submit" value="Start Search" />
+              </div>
+            </td>
+          </tr>
+         </tbody>
+       </table>
+  	   
+       <input type="button" onclick="resetPage()" value="Reset"></input>
+	   <input type="hidden" name="jobid" value="[% jobid %]" />
+	
+    </form>
+
+	</div>
+  </div>
+
+
+
+
+
+
+

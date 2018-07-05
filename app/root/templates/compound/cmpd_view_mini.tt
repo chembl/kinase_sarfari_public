@@ -1,0 +1,54 @@
+[%# 
+    $Id: cmpd_view_mini.tt 157 2009-08-25 11:08:41Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<table id="compSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+	  <th class="tableViewOnly">Compound Structure</th>	   
+	  <th id="sarregno">Reg. No.</th>
+	  [% IF comp_search_details.query_type.search('Similarity') -%]
+	  <th id="similarity">Similarity</th>
+	  [% END -%]
+	  <th id="molweight">Mol Weight</th>
+	  <th id="synonyms">Synonyms</th>
+	  <th id="alogp">ALogP</th>
+	  <th id="psa">PSA</th>
+	  <th id="hba">HBA</th>
+	  <th id="hbd">HBD</th>
+	  <th id="num_ro5_violations">#Ro5 Vio.</th>
+    </tr>
+  </thead>
+</table>
+
+<div class="spacer"></div>
+
+<table align="center">
+[% SET horizontal = 3 %]
+[% SET cell_cout = 1 %]
+[%- WHILE (cd = comp_details.next) -%] 
+    
+    [% IF cell_cout == 1 %]
+    <tr valign="top">
+    [% END %]
+      
+	  <td width="350px">
+      [% PROCESS report/compound_mini.tt %]
+      </td>
+    
+      [% IF cell_cout == 3 %]
+    </tr>
+        [% cell_cout = 0 %]
+      [% END %]
+    
+      [% cell_cout = cell_cout + 1 %]
+    
+      [% IF loop.last %]    
+    </tr>
+      [% BREAK %]
+    [% END %]
+    
+[% END %]
+</table>

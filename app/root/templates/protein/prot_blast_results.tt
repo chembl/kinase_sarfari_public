@@ -1,0 +1,274 @@
+[%# 
+    $Id: prot_blast_results.tt 777 2011-12-01 18:34:21Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div id="blastResultsImage"></div>
+
+<form method="post" action="[% c.uri_for('/') %]protein/function" id="searchFuncForm">
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    Protein BLAST Results: [% blastresults.size || 0 %] Hit[% IF blastresults.size != 1 %]s[% END %]
+  </div>
+    
+  <ul id="bodyHeaderMenu">
+	[% IF blastresults.size > 0 %]
+    <li>	  
+	  <select id="searchFuncSelect" name="cmpdSearchFunc">        
+  	    <option selected="selected" value="ignore">Please select....</option>
+		<option value="bio">Bioactivity Data Filter</option>
+		<option value="aln">Download Alignment</option>
+		<option value="seq">Download Sequences</option>
+	  </select>
+    </li>
+    [% END %]
+  </ul>
+  
+</div>
+
+[% PROCESS "shared/validation_error_white.tt" %]
+
+[% IF blastresults %]
+
+  <table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+    <thead>
+      <tr>
+	    <th class="slim">
+	      <input id="parentCheckbox" type="checkbox" name="check_all"></input>
+	    </th>
+	    <th>Name</th>
+        <th>Accession</th>
+	    <th>Organism</th>
+	    <th>Level 2</th>
+	    <th>Level 3</th>
+	    <th>Level 4</th>
+	    <th>Drugs</th>
+	    <th>Bioactivities</th>
+	    <th>Compounds</th>
+        <th>Query Region</th>
+        <th>Target Region</th>
+        <th>Identity</th>
+        <th>Aln</th>
+      </tr>
+    </thead>
+    <tbody>
+	
+	<tr id="setNumericCols">
+	  <td></td>
+	  <td></td>
+      <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td>1</td>
+	  <td>1</td>
+	  <td>1</td>
+	  <td></td>
+	  <td></td>
+	  <td>1</td>
+	  <td></td>
+    </tr>
+	
+    [% FOREACH hit = blastresults %]
+    [% SET domid = hit.id %]
+    <tr>
+      <td><input class="childCheckBox" type="checkbox" name="selectedDomids" value="[% domid %]"></input></td>
+      <td><a href="[% c.uri_for('/report/protein/') %][% domid %]">[% prot_details.$domid.gene_domain_name %]</a></td>
+       <td>
+          [%- FOREACH acc IN target_accessions.$domid -%]
+          <a href="[% c.config.external_url.UNIPROT %][% acc.accession %]">[% acc.accession %]<a>
+          [%- END -%]
+      </td>      
+      <td>[% prot_details.$domid.common_name -%]</td>
+      <td>[% prot_details.$domid.level2 -%]</td>
+      <td>[% prot_details.$domid.level3 -%]</td>
+      <td>[% prot_details.$domid.level4 -%]</td>
+	  <td>[% prot_details.$domid.ds_count %]</td>
+	  <td>[% IF prot_details.$domid.bio_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/all/B/[% domid %]/All">[%  prot_details.$domid.bio_all %][% ELSE %]0[% END %]</td>
+	  <td>[% IF prot_details.$domid.comp_all > 0 %] <a href="[% c.uri_for('/') %]compound/report/chembl/[% domid %]/domid">[% prot_details.$domid.comp_all %][% ELSE %]0[% END %]</td>
+      <td>[% hit.hsps.0.qry_start %]-[% hit.hsps.0.qry_end %]</td>
+      <td>[% hit.hsps.0.hit_start %]-[% hit.hsps.0.hit_end %]</td>
+      <td>[% hit.hsps.0.identity %]</td>
+      <td><a href="[% c.uri_for('/protein/view_blastaln') %]/[% blast_id %]/[% domid %]">Aln</a></td>
+    </tr>
+    [% END %]
+    </tbody>
+  </table>
+  
+</form>
+[% ELSE %]
+  <table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+    <thead>
+      <tr>
+	    <th class="slim">
+	      <input id="parentCheckbox" type="checkbox" name="check_all"></input>
+	    </th>
+	    <th>Name</th>
+        <th>Accession</th>
+	    <th>Organism</th>
+	    <th>Level 2</th>
+	    <th>Level 3</th>
+	    <th>Level 4</th>
+	    <th>Drugs</th>
+	    <th>Bioactivities</th>
+	    <th>Compounds</th>
+        <th>Query Region</th>
+        <th>Target Region</th>
+        <th>Identity</th>
+        <th>Aln</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+[% END %]
+
+</form>
+
+<script type="text/javascript" charset="utf-8">
+
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/protein/function") %]";
+
+$(document).ready(function(){ 
+	
+    // Set up tablesorter, external jquery lib
+	$("#protSearchTable").tablesorter({
+	    headers: {          
+            0:  { sorter: false },
+			13: { sorter: false }
+        },
+		sortList: [[12,1]],
+		'textExtraction': 'complex'
+	});
+	
+     // Reduce table size if ie
+	 if ($.browser.msie){
+	     $('#protSearchTable').css({width:'95%'});
+     }
+	
+	// Do not display setNumericCols
+	// Appears to bug in digit columns starting with 0 
+	$("#setNumericCols").hide();
+
+    // Create BLAST image
+	drawBlastImage();
+  
+  	// User function select 
+    $('#searchFuncSelect').change(function(){
+	    
+		var user_select = this.value;
+
+		$("#searchFuncSelect option:first").attr('selected', 'selected' );
+	    
+		if(validateCheckboxes(document.getElementById('searchFuncForm'))){	           
+           return;
+		}
+    
+		if(user_select != 'ignore'){		
+		    
+		    $("#searchFuncForm").attr({ 
+                action: GLOBAL_BASE_FUNCTION_URL + "/" + user_select
+            });
+						
+			$("#searchFuncForm").submit();
+		}
+    });
+	
+	// Hightlight row when hover 
+	$('#protSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+	// Checkbox 
+	$('#parentCheckbox').click(function(){
+	    var parent_checkbox_status = this.checked;
+
+		$('.childCheckBox').each(function(){
+		    this.checked = parent_checkbox_status;
+		})
+	});
+}); 
+
+function drawBlastImage(){
+    
+    var qLen     = [% query_length || 1 %];
+    var barWidth = [% c.config.blast.bar_width || 1%];
+    var indent   = [% c.config.blast.indent || 1 %];
+    var unit     = [% unit || 1 %];
+    
+    //Only 1 table- get all rows in tbody
+    var rows = $("table tbody").children();
+    
+    if(rows.length > 0){
+        var image = document.createElement('div');
+        image.className='blastImage';
+        image.setAttribute('id', 'blastImageId');
+             
+        var queryBar = document.createElement('div');
+        queryBar.setAttribute('id', 'querybar');
+        image.appendChild(queryBar);
+        
+        // Column in table used to parse target from-to pos
+        var COL = 10;
+        var IDENTITY_COL = 12;
+        
+        //limit to 50 results 
+        for(var i = 0; i < rows.length && i < 50; i++){
+    
+            //If table cell ordering is modified this function may require updating
+            var qFromTo = $("td:eq("+COL+")", rows[i])
+                           .text()
+                           .split("-");
+        
+            var qFrom = qFromTo[0];
+            var qTo   = qFromTo[1];
+        
+            var qMargin = (qFrom == 1)
+                           ? indent
+                           : unit * qFrom + indent;
+                        
+            var qLength = (((unit * (qTo - qFrom + 1)) + qMargin - indent) <= barWidth )
+                           ? unit * (qTo - qFrom)
+                           : barWidth + indent - qMargin;
+
+            //Fix matches to region is same as quey length 
+            if(qTo == qLen) qLength = barWidth + indent - qMargin;
+                                                     
+            //helps tidy up overlaps in image
+            if (qMargin >  indent) qMargin +=1;
+             
+            var bar = document.createElement('div');
+            bar.setAttribute('id','blastHit');
+            bar.style.width      = qLength+'px'; 
+            bar.style.marginLeft = qMargin+'px'; 
+
+            var identity = $("td:eq("+IDENTITY_COL+")", rows[i]).text();
+            
+            var background_colour = null;
+            if       (identity > 90) background_colour = 'red';
+            else if  (identity > 75) background_colour = 'pink';
+            else if  (identity > 50) background_colour = 'green';
+            else if  (identity > 30) background_colour = 'blue';
+            else background_colour = 'black';
+            bar.style.background = background_colour;
+            
+            image.appendChild(bar);
+
+        }
+    
+        $("#blastResultsImage").append(image);
+    }
+}
+
+</script>
+
+
+  

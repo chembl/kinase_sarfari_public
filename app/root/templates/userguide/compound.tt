@@ -1,0 +1,34 @@
+  <div class="slimBody">
+       
+    <h1>Compound Report Card</h1>
+    <p>
+    The compound report is a one page portal collating information about a compound, and providing a single point for linking to all data associated with a compound including properties, representations, bioactivity data, etc. An example report card is displayed below:
+    </p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/compound_report.png') %]" border="0"/>
+    
+    <p class="spacer"></p>
+
+    <h1>Structure Search</h1>
+    <p>The user can perform compound structure searches. The following workflow explains how a user can draw a chemical structure and return it to the webpage:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/compound1.png') %]" border="0"/>
+    <p>Once the structure has been drawn a structure based search can be initiated using the following workflow:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/compound2.png') %]" border="0"/>
+    
+    <p class="spacer"></p>
+
+    <h1>Text Search</h1>
+    <p>It possible to retrieve compounds by searching for their synonyms, names or identifiers. The following workflow explains how to perform a text-based search:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/compound3.png') %]" border="0"/>        
+    <p>When entering search terms not that each newline represents a new search term. For example "map kinase" on one line produces a more restrictive search than having "map" and "kinase" on separate lines.</p>
+
+    <p class="spacer"></p>
+    
+    <h1>Selected Compound Sets</h1>
+    <p>A number of pre-selected compound sets can be retrieved. These currently are Approved Drug compounds (FDA approved kinase inhibitors), PDB Ligands and Clinical Candidate compounds.</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/compound4.png') %]" border="0"/>
+    
+    <p class="spacer"></p>
+    
+    [% PROCESS userguide/compound_table.tt %]
+    
+  </div>

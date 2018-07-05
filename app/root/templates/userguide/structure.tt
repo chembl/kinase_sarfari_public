@@ -1,0 +1,14 @@
+  <div class="slimBody">
+    <h1>User Guide: 3D Structure Pages</h1> 
+  
+    <h2>3D Structure Search</h2>
+    <p>
+    This section enables retrieval of 3D structures of kinases and comparing and viewing them. The structures can be retrieved using the kinase name or specific structure codes.
+    </p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/structure1.png') %]" border="0"/>  
+  
+    <p class="spacer"></p>
+    
+    [% PROCESS userguide/structure_table.tt %]
+    
+  </div>

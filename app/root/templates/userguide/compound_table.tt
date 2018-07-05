@@ -1,0 +1,51 @@
+    <h1>Compound Search Results Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>Compound Structure (Table View)</th>
+      <td>Image of compound</td>
+    </tr>
+    <tr>
+      <th>Reg. No.</th>
+      <td>Compound registration number</td>
+    </tr>
+    <tr>
+      <th>Similarity (Similarity Search)</th>
+      <td>Tanimoto similarity score between query and target structures</td>
+    </tr>
+    <tr>
+      <th>Mol Weight</th>
+      <td>Molecular weight of compound </td>
+    </tr>
+    <tr>
+      <th>Synonyms</th>
+      <td>List of compound synonyms</td>
+    </tr>
+    <tr>
+      <th>ALogP</th>
+      <td>ALogP value for compound</td>
+    </tr>
+    <tr>
+      <th>PSA</th>
+      <td>Polar Surface Area</td>
+    </tr>
+    <tr>
+      <th>HBA</th>
+      <td>Hydrogen Bond Acceptors</td>
+    </tr>
+    <tr>
+      <th>HBD</th>
+      <td>Hydrogen Bond Donors</td>
+    </tr>
+    <tr>
+      <th>#Ro5 Vio.</th>
+      <td>Number of Rule-of-Five Violations</td>
+    </tr>          
+    </table>
+   </p>
+  
+  

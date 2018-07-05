@@ -1,0 +1,13 @@
+  <div class="slimBody">
+    
+    <h1>Family Browsing</h1> 
+    <p>
+    A phylogenetic tree of the target clusters was produced using the master kinase sequence alignment. The tree is provided to guide target navigation. Clicking on a group within the tree displays a table detailing the families and subfamilies of targets within that group. Selection can then be made from these tables by clicking on the relevant rows.
+    </p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/family1.png') %]" border="0"/>
+  
+    <p class="spacer"></p>
+  
+    [% PROCESS userguide/family_table.tt %]
+  
+  </div>

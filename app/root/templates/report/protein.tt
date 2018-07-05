@@ -1,0 +1,265 @@
+[%# 
+    $Id: protein.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+[% USE wrap %]
+
+<div class="roundBox">
+  
+  <div class="slimBody">		
+	
+      <h1>Summary</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Protein Name</th>
+          <td class="leftalign">[% summary_rs.gene_domain.gene_domain_name %]</td>
+        </tr>
+        <tr>
+          <th>Organism</th>
+          <td class="leftalign">[% summary_rs.gene_domain.target.taxon.common_name %]</td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td class="leftalign">[% summary_rs.description %]</td>
+        </tr>		
+        <tr>
+          <th>OMIM</th>
+          <td class="leftalign">[% IF summary_rs.gene_domain.omim %]<a href="http://www.ncbi.nlm.nih.gov/entrez/dispomim.cgi?id=[% summary_rs.gene_domain.omim %]">[% summary_rs.gene_domain.omim %]</a>[% END %]</td>
+        </tr>
+        <tr>
+          <th>Function</th>
+          <td class="leftalign">[% summary_rs.gene_domain.domain_function %]</td>
+        </tr>
+        <tr>
+          <th>Synonyms</th>
+          <td class="leftalign">[% synonyms.join(', ') %]</td>
+        </tr>
+        <tr>
+          <th>ChEMBL Id</th>
+          <td class="leftalign">
+               <a href="[% c.config.chembl_siteurl %]/index.php/target/inspect/[% summary_tg.chembl_id %]">[% summary_tg.chembl_id %]</a>
+          </td>
+        </tr>
+        <thead>
+	  </table>
+
+      <div class="spacer"></div>
+
+      <h1>Classification</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+          <tr>
+            <th>Level 1</th>
+            <th>Level 2</th>
+            <th>Level 3</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>[% summary_rs.gene_domain.classification.level2 %]</td>
+          <td>[% summary_rs.gene_domain.classification.level3 %]</td>
+          <td>[% summary_rs.gene_domain.classification.level4 %]</td>
+        </tr>
+        </tbody>
+	  </table>
+
+      <div class="spacer"></div>
+
+      <h1>Domain Variants</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead> 
+          <tr>
+            <th>Variant Name</th>
+			<th>Accession</th>
+            <th>Variant Description</th>
+            <th>Length</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+        [% FOREACH v IN variants -%]
+		[% SET var_dom_id = v.dom_id %]
+        <tr>
+          <td><a href="[% c.uri_for('/') %]report/protein/[% v.dom_id %]">[% v.display_name %]<a></td>
+		  <td> [% accessions.$var_dom_id.join(', ') %] </td>
+          <td>[% v.transcript %]</td>
+          <td></td>
+          <td></td>
+        </tr>
+        [% END -%]
+        </tbody>
+	  </table>
+
+
+      <form method="post" action="[% c.uri_for('/') %]protein/function" id="searchFuncForm">
+
+	    <select id="searchFuncSelect" name="cmpdSearchFunc">        
+  	      <option selected="selected" value="ignore">Please select....</option>
+		  <option value="aln">Download Alignment</option>
+		  <option value="seq">Download Sequences</option>
+	    </select>
+        [% FOREACH v IN variants -%]
+        <input type="hidden" name="selectedDomids" value="[% v.dom_id %]"></input>
+        [% END %]
+      </form>
+
+      <div class="spacer"></div>
+
+      <h1>Approved Drug Summary</h1>
+      
+	  [% IF drugstore %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Registration Number</th>
+          <th>Name</th>                    
+          <th>Structure</th> 
+        </tr>
+        </thead>
+        <tbody>
+        [% FOREACH d IN drugstore.keys -%]
+        <tr>
+          <td><a href="[% c.uri_for('/') %]report/compound/[% d %]">[% d %]</a></td>
+          <td>[% drugstore.$d.synonyms.join(', ') %]</td>
+		  <td>
+            <img onclick="compoundPopUp('[% c.uri_for('/') %]/compound/display/[% d %]')" src="[% c.uri_for('/') %]/compound/image/[% d %].png" />
+	      </td>
+        </tr>
+        [% END -%]
+        </tbody>		
+	  </table>
+	  [% ELSE %]
+	  <br/>
+	  No Approved Drug data linked to [% summary_rs.display_name %]
+      [% END -%]
+
+      <div class="spacer"></div>
+
+	  <h1>Clinical Candidate Summary</h1>
+      
+	  [% IF candistore.size > 0 || candistore_ns.size > 0 %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Registration Number</th>		  
+		  <th>Name</th>             
+          <th>Structure</th> 
+        </tr>
+        </thead>
+        <tbody>
+		
+        [% FOREACH cs IN candistore -%]
+        <tr>
+          <td>
+            <a href="[% c.uri_for('/') %]report/compound/[% cs.candi.sarregno %]">[% cs.candi.sarregno %]</a>
+		  </td>
+		  <td>[% cs.candi.usan_inn %]</td>
+		  <td>
+            <img onclick="compoundPopUp('[% c.uri_for('/') %]/compound/display/[% cs.candi.sarregno %]')" src="[% c.uri_for('/') %]/compound/image/[% cs.candi.sarregno %].png" />
+	      </td>
+        </tr>
+        [% END -%]
+
+        [% FOREACH cs_ns IN candistore_ns -%]
+        <tr>
+          <td>NA</td>
+		  <td>[% cs_ns.candi.can_name %]</td>
+		  <td>No Structure</td>
+        </tr>
+        [% END -%]
+
+        </tbody>		
+	  </table>
+	  [% ELSE %]
+	  <br/>
+	  No Clinical Candidate data linked to [% summary_rs.display_name %]
+      [% END -%]
+	  
+      <div class="spacer"></div>
+
+      <h1>Bioactivity Summary</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th rowspan="2">Variant Name</th>
+          <th colspan="3">ChEMBL</th>                    
+        </tr>
+        <tr>
+          <th>IC50</th>
+          <th>Ki</th>
+          <th>All</th>
+        </tr>
+        </thead>
+        <tbody>
+        [% FOREACH v IN variants -%]
+        <tr>
+          <td><a href="[% c.uri_for('/') %]report/protein/[% v.dom_id %]">[% v.display_name %]<a></td>
+          <td>[% IF v.prot_bio.bio_star_ic50 > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/chembl/B/[% v.dom_id %]/IC50">[%  v.prot_bio.bio_star_ic50 %][% ELSE %]0[% END %]</td>		  
+          <td>[% IF v.prot_bio.bio_star_ki > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/chembl/B/[% v.dom_id %]/Ki">[%  v.prot_bio.bio_star_ki %][% ELSE %]0[% END %]</td>
+          <td>[% IF v.prot_bio.bio_star_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/chembl/B/[% v.dom_id %]/All">[%  v.prot_bio.bio_star_all %][% ELSE %]0[% END %]</td>
+        </tr>
+        [% END -%]
+        </tbody>
+	  </table>
+              
+      <div class="spacer"></div>
+
+      <h1>Compound Summary</h1>
+      
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+		  <th rowspan="2">Variant Name</th>				  
+          <th colspan="2">ChEMBL Compound Counts</th>
+        </tr> 
+        <tr>
+          <th>IC50 &lt;= 50nM</th>
+          <th>All</th>
+        </tr>
+        </thead>                 
+        <tbody>                 
+        [% FOREACH v IN variants -%]
+        <tr>
+          <td><a href="[% c.uri_for('/') %]report/protein/[% v.dom_id %]">[% v.display_name %]<a></td>
+          <td>[% IF v.prot_comp.comp_star_ic50_cut > 0 %] <a href="[% c.uri_for('/') %]compound/report/chembl/[% v.dom_id %]/domidIC50">[%  v.prot_comp.comp_star_ic50_cut %][% ELSE %]0[% END %]</td>
+          <td>[% IF v.prot_comp.comp_star_all > 0 %] <a href="[% c.uri_for('/') %]compound/report/chembl/[% v.dom_id %]/domid">[%  v.prot_comp.comp_star_all %][% ELSE %]0[% END %]</td>
+        </tr>
+        [% END -%]
+        </tbody>                 
+      </table>                  
+
+    </div>	
+	
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/protein/function") %]";
+
+$(document).ready(function(){ 
+	
+  	// User function select 
+    $('#searchFuncSelect').change(function(){
+	    
+		var user_select = this.value;
+		
+		if(user_select != 'ignore'){		
+		    
+		    $("#searchFuncForm").attr({ 
+                action: GLOBAL_BASE_FUNCTION_URL + "/" + user_select
+            });
+			
+			$("#searchFuncSelect option:first").attr('selected', 'selected' );
+			
+			$("#searchFuncForm").submit();
+		}
+    });
+}); 
+</script>

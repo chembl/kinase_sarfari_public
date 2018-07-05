@@ -1,0 +1,80 @@
+[%# 
+    $Id: compound_mini.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+
+  <div class="slimBody">
+    
+  <table align="center" width="250px" class="miniReport" cellpadding="0" cellspacing="1">	
+    <tr>		  
+      <td rowspan="[% IF comp_search_details.query_type.search('Similarity') -%]8[% ELSE %]7[% END %]" align="center">
+
+         <a href="[% c.uri_for('/') %]report/compound/[% cd.sarregno %]">
+         <img src="[% c.uri_for('/') %]/compound/image/[% cd.sarregno %].png" border="0px" alt="[% cd.sarregno %] image"/>
+         </a>
+	     <br/>
+             [% IF cd.sarregno < 2000000 %]
+                <a href="[% c.config.chembl_siteurl %]/index.php/compound/inspect/CHEMBL[% cd.sarregno %]">CHEMBL[% cd.sarregno %]</a>
+             [% ELSE %]
+                [% cd.sarregno %] 
+             [% END %]
+      </td>
+    </tr>	  
+    <tr>
+      <th  [% IF sorted_on == 'molweight' %]class="sortOn"[% END %]>MW</th>
+      <td  [% IF sorted_on == 'molweight' %]class="sortOn"[% END %]>[% IF cd.molweight.defined %][% cd.molweight | sarfari_round %][% ELSE %]NA[% END %]</td>
+    </tr> 
+    <tr>
+      <th [% IF sorted_on == 'alogp' %]class="sortOn"[% END %]>ALogP</th>
+      <td [% IF sorted_on == 'alogp' %]class="sortOn"[% END %]>[% IF cd.alogp.defined %][% cd.alogp | sarfari_round %][% ELSE %]NA[% END %]</td>
+    </tr> 
+    <tr>
+      <th [% IF sorted_on == 'psa' %]class="sortOn"[% END %]>PSA</th>
+      <td [% IF sorted_on == 'psa' %]class="sortOn"[% END %]>[% IF cd.psa.defined %][% cd.psa | sarfari_round %][% ELSE %]NA[% END %]</td>
+    </tr> 
+    <tr>
+      <th [% IF sorted_on == 'hba' %]class="sortOn"[% END %]>HBA</th>
+      <td [% IF sorted_on == 'hba' %]class="sortOn"[% END %]>[% IF cd.hba.defined %][% cd.hba %][% ELSE %]NA[% END %]</td>
+    </tr> 
+    <tr>
+      <th [% IF sorted_on == 'hbd' %]class="sortOn"[% END %]>HBD</th>
+      <td [% IF sorted_on == 'hbd' %]class="sortOn"[% END %]>[% IF cd.hbd.defined %][% cd.hbd %][% ELSE %]NA[% END %]</td>
+    </tr> 
+    <tr>
+      <th [% IF sorted_on == 'num_ro5_violations' %]class="sortOn"[% END %]>#Ro5 Vio.</th>
+      <td [% IF sorted_on == 'num_ro5_violations' %]class="sortOn"[% END %] colspan="2">[% IF cd.num_ro5_violations.defined %][% cd.num_ro5_violations %][% ELSE %]NA[% END %]</td>
+    </tr>
+	[% IF comp_search_details.query_type.search('Similarity') -%]
+    <tr>
+      <th [% IF sorted_on == 'similarity' %]class="sortOn"[% END %]>Similarity</th>
+      <td [% IF sorted_on == 'similarity' %]class="sortOn"[% END %] colspan="2">[% cd.similarity %]</td>
+    </tr>	
+	[% END -%]	
+    </table>
+    
+    <div class="miniReportSpacer"></div>
+    
+    <table align="center" width="250px" class="miniReport" cellpadding="0" cellspacing="1">
+    <tr>
+      <th>Approved</th>
+      <td>[% cd.sources.search('DS') ? 'Yes' : 'No' %]</td>
+      <th>Clinical</th>
+      <td>[% cd.sources.search('CS') ? 'Yes' : 'No' %]</td>
+    </tr>
+    <tr>
+      <th [% IF sorted_on == 'synonyms' %]class="sortOn"[% END %] >Synonyms</th>
+    [% IF cd.synonyms && cd.synonyms.length > 25 %]
+      <td  [% IF sorted_on == 'synonyms' %]class="sortOn qtip-below""[% ELSE %]class="qtip-below"[% END %] colspan="3" title="[% cd.synonyms %]">
+    [% cd.synonyms.substr(0,23) %]..
+      </td>
+    [% ELSE %]
+    <td  [% IF sorted_on == 'synonyms' %]class="sortOn"[% END %] colspan="3">[% cd.synonyms %]</td>
+    [% END %]
+    </tr>
+    </table>
+  
+  </div>	
+</div>

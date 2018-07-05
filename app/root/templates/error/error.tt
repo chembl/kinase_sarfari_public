@@ -1,0 +1,34 @@
+[%# 
+    $Id: error.tt 157 2009-08-25 11:08:41Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+	
+  <div class="slimBody">
+  [% IF msg %]
+  
+  <h1>Query Results</h1>
+      
+  <p>[% msg %]</p>
+  
+  [% ELSIF error %]
+  
+  <h1>SARfari System Error</h1>
+  
+  <p>[% FOREACH e = error %][% e %][% END -%]</p>
+  
+  <p>Please report this error to system administrator</p>
+  
+  [% ELSE %]
+  
+  <h1>Unknown Error</h1> 
+  
+  <p>An error has occurred, however no error message has been generated. Please inform system administrator of events which caused error to occur</p>
+  
+  [% END %]  
+  </div>
+
+</div>
+  

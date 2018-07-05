@@ -1,0 +1,101 @@
+# This file documents the revision history Kinase Sarfari Application
+
+3.00 2010-09-22
+	- Loaded chembl_06 data:
+		1. Compound count increased from 28,223 to 33,559 
+		2. Bioactivity count increased from 146,865 to 212,735
+    - Adding GPCR Sarfari menu link
+    - Added Kinase SARfari/GPCR Sarfari specific logos
+		
+2.02 2010-08-05
+	- Added new ChEMBL menu system
+
+2.01 2010-06-18
+	- Added test for https based X-FORWARDED-PORT header
+
+2.00 2010-04-12
+	- Loaded chembl_02 data:
+		1. Compound count increased from 17,028 to 28,223 and 
+		2. Bioactivity count increased from 68,861 to 146,865
+	- Compound selected sets updated: 
+		1. 10 Drugstore compounds, previously 7
+		2. 258 Candistore compounds, previously 53
+	- Interface updated with EBI styling
+	- Additional changes made to interface based on interface groups comments
+		1. Removing vertical bars on homepage
+		2. Stopped fade-in/out on sub-menu selections
+		3. Added images to family user selection tables
+		4. Make sure cursor style updates when hovering over links
+	- Added Download section to interface and created associated flat files
+	- Removed quick search from protein target bioactivity search
+
+1.18 2010-01-26
+	- Adding links to protein and compound pages from bioactivity results
+	- Adding 3D structure summary to compound report card
+	- Link to ChEMBL interface from compound report card
+	- Fixed compound search cache when data source changed
+
+1.17 2010-01-21
+	- Fixing up/down arrow on pseudo tablesorter
+	- Removing features not available on front page summary
+	- Setting scheduler to run once a day 
+
+1.16 2010-01-15
+	- Fixing release 1.15 issues (CSS and filenames)
+	
+1.15 2010-01-15
+	- Updating family page to persist user selection
+	- Updating keyword searches to split search terms on newline
+	- Fixed bioactivity compound search and/or filter
+	- Fixed bioactivity compound search error when no results returned
+	- Tidied up front page summary information
+
+1.14 2010-01-12
+	- Added cookie to store submenu selection so when user goes back the
+	  correct page displayed
+	- Added sarfari_local.yml startup warning
+	- CSS update to prevent text/image overlap on results page
+
+1.13 2009-12-03
+	- Adding Google Webmaster Tools
+
+1.12 2009-12-03
+	- Session store moved to memcache
+	- Config cleanup
+	- Javascript file cleanup and jQuery update
+
+1.11 2009-11-23
+	- User guide updated to include:
+		1. Extra binding site definition details
+		2. Table column explanations
+	- Improved compound search caching
+	
+1.10 2009-10-29
+	- Replaced Marvin chemical sketcher with JME
+	- Additional user input validation added
+	- Fixing blast results sorting bug
+	- Fixing BLAST parsing bug
+	- Adding version number to js and css files
+
+1.09 2009-10-22
+	- Fixed SDF download issue
+
+1.08 2009-10-20
+	- Fixing compound results for bioactivity advanced search 
+
+1.07 2009-10-14
+	- IO::String requirement added to makefile
+	- Fixed ligand display on 3D structure search, when searching with PDB code  
+	
+1.06 2009-10-13
+	- Compound report card now displays smiles, inchi, inchi_key
+	- Bioactivity data download now includes smiles
+	- User guide updated
+	- Starlite references changed to ChEMBL
+	- Migrated kinasesarfari schema from chemdev to chempro
+
+1.02-1.05 2009-09-21
+	- General fixing in preparation schema migration
+
+1.00 2009-09-01
+	- Initial Release

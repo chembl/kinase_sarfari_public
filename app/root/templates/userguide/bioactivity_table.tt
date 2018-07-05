@@ -1,0 +1,48 @@
+    <h1>Bioactivity Search Results Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>Activity ID</th>
+      <td>Internal activity domain identifier</td>
+    </tr>
+    <tr>
+      <th>Domain Name</th>
+      <td>Unique kinase protein domain identifier</td>
+    </tr>
+    <tr>
+      <th>Reg. No.</th>
+      <td>Compound registration number</td>
+    </tr>
+    <tr>
+      <th>Activity Type</th>
+      <td>Type of end-point measurement: e.g. IC50, LD50, %inhibition etc</td>
+    </tr>
+    <tr>
+      <th>Relation</th>
+      <td>Symbol constraining the activity value (e.g. >, <, =)</td>
+    </tr>
+    <tr>
+      <th>Value</th>
+      <td>Activity data point</td>
+    </tr>       
+    <tr>
+      <th>Unit</th>
+      <td>Units of measurement</td>
+    </tr> 
+    <tr>
+      <th>Comment</th>
+      <td>Additional comments about activity</td>
+    </tr>
+    <tr>
+      <th>Details</th>
+      <td>Click 'Details' to open up underlying published data associated with activity</td>
+    </tr> 
+              
+    </table>
+   </p>
+  
+  

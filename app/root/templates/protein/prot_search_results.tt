@@ -1,0 +1,156 @@
+[%# 
+    $Id: prot_search_results.tt 777 2011-12-01 18:34:21Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<form method="post" action="[% c.uri_for('/') %]protein/function" id="searchFuncForm">
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    Protein Search Results: [% target_details.size || 0 %] Hit[% IF target_details.size != 1 %]s[% END %]
+  </div>
+    
+  <ul id="bodyHeaderMenu">
+	[% IF target_details.size > 0 %]
+    <li>	  
+	  <select id="searchFuncSelect" name="cmpdSearchFunc">        
+  	    <option selected="selected" value="ignore">Please select....</option>
+		<option value="bio">Bioactivity Data Filter</option>
+		<option value="aln">Download Alignment</option>
+		<option value="seq">Download Sequences</option>
+	  </select>
+    </li>
+    [% END %]
+  </ul>
+  
+</div>
+
+[% PROCESS "shared/validation_error_white.tt" %]
+
+<table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+	  <th class="slim">
+	    <input id="parentCheckbox" type="checkbox" name="check_all"></input>
+	  </th>
+	  <th>Name</th>
+      <th>Accession</th>
+	  <th>Organism</th>
+	  <th>Level 2</th>
+	  <th>Level 3</th>
+	  <th>Level 4</th>
+	  <th>Drugs</th>
+	  <th>Bioactivities</th>
+	  <th>Compounds</th>
+    </tr>
+  </thead>
+  <tbody>
+
+	<tr id="setNumericCols">
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+      <td></td>
+	  <td></td>
+	  <td></td>
+	  <td>1</td>
+	  <td>1</td>
+	  <td>1</td>
+    </tr>
+
+
+    [%- FOREACH p IN target_details -%]    
+	<tr>
+	  <td>
+	    <input class="childCheckBox" type="checkbox" name="selectedDomids" value="[% p.dom_id %]"></input>
+	  </td>
+	  <td>
+	    <a href="[% c.uri_for('/') %]report/protein/[% p.dom_id %]">[% p.gene_domain_name %]<a>
+	  </td>
+      <td>
+          [%- SET dom_id = p.dom_id -%]
+          [%- FOREACH acc IN target_accessions.$dom_id -%]
+          <a href="[% c.config.external_url.UNIPROT %][% acc.accession %]">[% acc.accession %]<a>
+          [%- END -%]
+      </td>      
+	  <td>[% p.common_name %]</td>
+	  <td>[% p.level2 %]</td>
+	  <td>[% p.level3 %]</td>
+	  <td>[% p.level4 %]</td>
+	  <td>[% p.ds_count %]</td>
+	  <td>[% IF p.bio_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/target/all/B/[% p.dom_id %]/All">[%  p.bio_all %][% ELSE %]0[% END %]</td>
+	  <td>[% IF p.comp_all > 0 %] <a href="[% c.uri_for('/') %]compound/report/chembl/[% p.dom_id %]/domid">[% p.comp_all %][% ELSE %]0[% END %]</td>
+    </tr>
+    [%- END -%]
+  </tbody>
+</table>
+
+</form>
+
+<script type="text/javascript" charset="utf-8">
+
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/protein/function") %]";
+
+
+$(document).ready(function(){ 
+
+    // Set up tablesorter, external jquery lib
+	$("#protSearchTable").tablesorter({
+	    'headers': {          
+            0: { 'sorter': false }
+        },
+		'textExtraction': 'complex'
+	});	
+	
+	 // Reduce table size if ie
+	 if ($.browser.msie){
+	     $('#protSearchTable').css({width:'95%'});
+     }
+
+    // Do not display setNumericCols
+	// Appears to bug in digit columns starting with 0 
+	$("#setNumericCols").hide();
+	
+  	// User function select 
+    $('#searchFuncSelect').change(function(){
+	    
+		var user_select = this.value;
+
+		$("#searchFuncSelect option:first").attr('selected', 'selected' );
+	    
+		if(validateCheckboxes(document.getElementById('searchFuncForm'))){	           
+           return;
+		}
+		
+		if(user_select != 'ignore'){		
+		    
+		    $("#searchFuncForm").attr({ 
+                action: GLOBAL_BASE_FUNCTION_URL + "/" + user_select
+            });
+						
+			$("#searchFuncForm").submit();
+		}
+    });
+	
+	// Hightlight row when hover 
+	$('#protSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+	// Checkbox 
+	$('#parentCheckbox').click(function(){
+	    var parent_checkbox_status = this.checked;
+
+		$('.childCheckBox').each(function(){
+		    this.checked = parent_checkbox_status;
+		})
+	});
+}); 
+</script>

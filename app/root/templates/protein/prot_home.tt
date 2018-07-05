@@ -1,0 +1,137 @@
+[%# 
+    $Id: prot_home.tt 602 2010-04-12 09:50:59Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<table id="searchMenu">
+  <tr>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+  </tr> 
+  <tr>
+	<td id="prot_submenu1"><img src="[% c.uri_for('/static/images/logos/targ_kw.png') %]" /><br /><h3>Keyword Search</h3></td>
+	<td id="prot_submenu2"><img src="[% c.uri_for('/static/images/logos/blast.png') %]" /><br/><h3>BLAST Search</h3></td>
+  </tr>	
+
+</table>
+
+
+<div id="searchForms" class="roundBox">
+		
+	<!-- START: Protein Keyword Based Search --> 
+	<div class="slimBody">
+
+      <h1>Protein Target Text Search</h1>
+	  
+      <form name="target" method="post" action="[% c.uri_for('/protein/search') %]" enctype="multipart/form-data" >
+  
+        [% PROCESS "shared/validation_error.tt" %]
+
+        <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>User Input</th>
+	        <th>Protein Search Type</th>
+	        <th>Organism</th>						
+          </tr>
+        </thead>
+        <tbody>
+	      <tr>
+
+			<td>
+			  <br/><br/>
+              <textarea cols="30" rows="6"  name="targetList" ></textarea>
+              <br/><br/>
+              <input type="file" size="20" name="targetFile">
+			  <br/><br/>
+            </td>			
+
+			<td>
+              <select name="targetType">
+                <option value="all" selected="selected">All Fields</option>
+                <option value="name" >Domain Name</option>			  
+	            <option value="domid">Domain id</option>
+              </select>
+            </td>
+
+			<td>
+			
+			  <ul>
+			    <li>
+                  <input type="radio" name="taxid" checked="checked"></input>
+                  All
+			    </li>
+			    <li>
+                  <input type="radio" name="taxid" value="9606"></input>
+                  Human Only
+			    </li>
+
+			  </ul>
+			  					
+			</td>
+			
+          </tr>
+        </tbody>
+      </table>
+	
+        <input type="button" onclick="runTargetSearch(this.form)" value="Start Search"></input>
+        <input type="reset" value="Clear Form" />
+
+      </form>
+
+    </div>	
+	<!-- END: Protein Keyword Based Search --> 
+
+	
+	<!-- START: Protein BLAST Based Search --> 
+	<div class="slimBody">
+  
+      
+	  <h1>Protein Target BLAST Search</h1>
+	  
+      <form name="target" method="post" action="[% c.uri_for('/protein/search') %]" enctype="multipart/form-data" >
+      
+        [% PROCESS "shared/validation_error.tt" %]
+
+        <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>FASTA Sequence</th>
+          </tr>
+        </thead>
+        <tbody>
+	      <tr>
+			<td>
+			  <br/><br/>
+              <textarea cols="30" rows="6"  name="targetList" ></textarea>
+              <br/><br/>
+              <input type="file" size="20" name="targetFile">
+			  <br/><br/>
+            </td>					
+          </tr>
+        </tbody>
+      </table>
+	  
+   
+        <input type="hidden" value="seq"  name="targetType">		  
+        <input type="button" onclick="runTargetSearch(this.form, 2)" value="Start Search"></input>
+		<input type="reset" value="Clear Form" />
+
+      </form>
+
+    </div>	
+	<!-- END: Protein BLAST Based Search --> 
+	
+	
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+//On document load 
+$(document).ready(function(){    
+    // Stored in sarfari.js and shared between home pages
+	setupMenuDisplay()
+});
+</script>

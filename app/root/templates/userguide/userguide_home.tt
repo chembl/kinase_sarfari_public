@@ -1,0 +1,71 @@
+[%# 
+    $Id: userguide_home.tt 602 2010-04-12 09:50:59Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<table id="searchMenu">
+  <tr>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+  </tr> 
+  <tr>
+    <td id="user_submenu1"><h3>Introduction</h3><br /></td>
+    <td id="user_submenu2"><h3>Family</h3><br /></td>
+    <td id="user_submenu3"><h3>Protein</h3><br /></td>
+    <td id="user_submenu4"><h3>Binding Site</h3><br /></td>
+    <td id="user_submenu5"><h3>3D Structure</h3><br /></td>
+    <td id="user_submenu6"><h3>Bioactivity</h3><br /></td>
+    <td id="user_submenu7"><h3>Compound</h3><br /></td>
+    <td id="user_submenu8"><h3>FAQ</h3><br /></td>
+  </tr> 
+</table>
+
+<div id="searchForms" class="roundBox">
+    
+  <!-- START: Introduction -->
+  [% PROCESS userguide/introduction.tt %]
+
+  <!-- START: Family -->
+  [% PROCESS userguide/family.tt %]
+    
+  <!-- START: Protein -->
+  [% PROCESS userguide/protein.tt %]
+ 
+  <!-- START: Binding Site -->
+  [% PROCESS userguide/binding_site.tt %]
+
+  <!-- START: 3D Structure -->
+  [% PROCESS userguide/structure.tt %]
+
+  <!-- START: Bioactivity -->
+  [% PROCESS userguide/bioactivity.tt %]
+
+  <!-- START: Compound -->
+  [% PROCESS userguide/compound.tt %]
+
+  <!-- START: FAQ -->
+  [% PROCESS userguide/faq.tt %]
+
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+//On document load 
+$(document).ready(function(){    
+  
+  // Stored in sarfari.js and shared between home pages
+    setupMenuDisplay();
+});
+
+</script>
+
+	

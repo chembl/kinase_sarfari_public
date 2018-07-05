@@ -1,0 +1,308 @@
+[%# 
+    $Id: structure_astex.tt 326 2009-10-30 14:36:08Z mdavies $
+    
+    SEE LICENSE
+%]
+
+
+<table align="center">
+<tr>
+<td align="center">
+
+<applet width="640" height="480" name="av" code="MoleculeViewerApplet" archive="[% c.uri_for('/astex/OpenAstexViewer.jar') %]">
+  <param name="script" value="
+set symmetry on;
+
+molecule load mol0 '[% c.uri_for('/') %]/structure/generate/[% fit_type %]/[% fixed_px %]_[% fixed_px %].pdb';
+color [% c.config.structure_colours.0 %] molecule mol0;
+display lines off solvent;
+
+select molecule mol0;
+secstruc current; schematic -name protein_schematic_mol0 current;
+object display protein_schematic_mol0 off;
+select none;
+
+[% SET n = 1 -%]
+[% FOREACH m = mobile_px -%]
+molecule load mol[% n %] '[% c.uri_for('/') %]/structure/generate/[% fit_type %]/[% fixed_px %]_[% m %].pdb';
+color [% c.config.structure_colours.$n %] molecule mol[% n %];
+display lines off solvent;
+
+select molecule mol[% n %];
+secstruc current; schematic -name protein_schematic_mol[% n %] current;
+object display protein_schematic_mol[% n %] off;
+select none;
+
+[% n = n + 1 -%]
+[% END -%]
+">
+</applet>
+
+</td>
+
+</tr>
+
+<tr>
+<td align="center" [% IF px2seq_aln %]colspan="2"[% END %]>
+
+<br/>
+
+<span id="resref">
+ 
+</span>
+
+<br/>
+
+<table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+      <th>PX</th>
+      <th>PDB:Chain</th>
+      <th>SS</th>
+      <th>Resolution</th>
+      <th>R-Value</th>
+      <th>Ligand</th>        
+      [% FOREACH f = all_features %]
+      <th>	    
+        [% f.feature_name %]		  
+      </th>  
+      [% END %]
+    </tr>
+  </thead>
+  <tbody>
+
+    [% IF mobile_px.size > 0 %]
+    <tr>
+      <td>All</td>
+      <td><input type="checkbox" checked="checked" onclick='check_all(this.checked,"mol")'></input></td>
+      <td><input type="checkbox" onclick='check_all(this.checked,"ss")'></input></td>
+      <td>-</td>
+      <td>-</td>
+      <td><input type="checkbox" onclick='check_all(this.checked,"lig")'></input></td>        
+      [% FOREACH f = all_features %]
+      [% SET name = f.feature_name  %]
+      <td align="left" nowrap="nowrap">
+        <input type="checkbox" onclick='check_all(this.checked,"[% name _ 'D' %]")'></input><sup>Display All</sup><br/>
+        <input type="checkbox" onclick='check_all(this.checked,"[% name _ 'L' %]")'></input><sup>Label All</sup><br/>
+        <input type="checkbox" onclick='check_all(this.checked,"[% name _ 'R' %]")'></input><sup>Restrict All</sup><br/> 
+      </td>  
+      [% END %]
+    </tr>
+	[% END %]
+
+    <tr>
+      <td>[% fixed_px %]</td>
+      <td>
+        <input type="checkbox" name="mol" checked="checked" onclick='js_display(this, "mol0")'></input>
+        <font color="[% c.config.astex_colours.0 %]">[% pdb_details.$fixed_px.pdb_code %]:[% pdb_details.$fixed_px.pdb_chain %]</font> 	      		  
+      </td>
+      <td>
+        <input type="checkbox" name="ss" onclick='js_cartoon(this, "protein_schematic_mol0")'></input>
+      </td>
+      <td>[% pdb_details.$fixed_px.resolution %]</td>
+      <td>[% pdb_details.$fixed_px.r_value %]</td>
+      <td>
+        [% IF pdb_details.$fixed_px.ligands %]
+          [% FOREACH het = pdb_details.$fixed_px.ligands.keys %]
+        <input type="checkbox" name="lig" onclick='js_ligand(this, "select molecule mol0 and name [% het %];")'></input>
+        <a href="[% c.uri_for('/') %]report/compound/[% pdb_details.$fixed_px.ligands.$het %]">[% IF het.length > 10 %][% het.substr(0,8) %]..[% ELSE %][% het %][% END %]</a>
+        <br/>
+          [% END %]
+        [% END %]
+      </td>        
+      [% FOREACH f = all_features %]
+      [% SET name = f.feature_name  %]
+      <td align="left" nowrap="nowrap">
+        <input type="checkbox" name="[% name _ 'D' %]" [% IF !pdb_features.$fixed_px.$name %] disabled="disabled" [% END %] onclick='js_feature(this, "select molecule mol0 and residue [% FOREACH p = pdb_features.$fixed_px.$name %][% p.resnum %] [% END %];")'></input><sup>Display</sup><br/>
+        <input type="checkbox" name="[% name _ 'L' %]" [% IF !pdb_features.$fixed_px.$name %] disabled="disabled" [% END %] onclick='js_feature_label(this, "select molecule mol0 and residue [% FOREACH p = pdb_features.$fixed_px.$name %][% p.resnum %] [% END %] and atom CA;")'></input><sup>Label</sup><br/>
+        <input type="checkbox" name="[% name _ 'R' %]" [% IF !pdb_features.$fixed_px.$name %] disabled="disabled" [% END %] onclick='js_feature_restrict(this, "select molecule mol0; exclude molecule mol0 and residue [% FOREACH p = pdb_features.$fixed_px.$name %][% p.resnum %] [% END %];")'></input><sup>Restrict</sup><br/>
+      </td>  
+      [% END %]
+
+    </tr>  
+
+
+    [% FOREACH m = mobile_px %]
+    [% SET tmp = loop.count %] 
+    <tr>
+      <td>[% m %]</td>
+      <td>
+        <input type="checkbox" name="mol" checked="checked" onclick='js_display(this, "mol[% tmp %]")'></input>
+        <font color="[% c.config.astex_colours.$tmp %]">[% pdb_details.$m.pdb_code %]:[% pdb_details.$m.pdb_chain %]</font>
+      </td>
+      <td>
+        <input type="checkbox" name="ss" onclick='js_cartoon(this, "protein_schematic_mol[% tmp %]")'></input>
+      </td>
+      <td>[% pdb_details.$m.resolution %]</td>
+      <td>[% pdb_details.$m.r_value %]</td>
+      <td>
+        [% IF pdb_details.$m.ligands %]
+          [% FOREACH het = pdb_details.$m.ligands.keys %]
+        <input type="checkbox" name="lig" onclick='js_ligand(this, "select molecule mol[% tmp %] and name [% het %];")'></input>
+        <a href="[% c.uri_for('/') %]report/compound/[% pdb_details.$fixed_px.ligands.$het %]">[% IF het.length > 10 %][% het.substr(0,8) %]..[% ELSE %][% het %][% END %]</a>
+        <br/>
+          [% END %]
+        [% END %]
+      </td>
+      [% FOREACH f = all_features %]
+      [% SET name = f.feature_name  %]
+      <td align="left" nowrap="nowrap">    
+        <input type="checkbox" name="[% name _ 'D' %]" [% IF !pdb_features.$m.$name %] disabled="disabled" [% END %] onclick='js_feature(this, "select molecule mol[% tmp %] and residue [% FOREACH p = pdb_features.$m.$name %][% p.resnum %] [% END %];")'></input><sup>Display</sup><br/>
+        <input type="checkbox" name="[% name _ 'L' %]" [% IF !pdb_features.$m.$name %] disabled="disabled" [% END %] onclick='js_feature_label(this, "select molecule mol[% tmp %] and residue [% FOREACH p = pdb_features.$m.$name %][% p.resnum %] [% END %] and atom CA;")'></input><sup>Label</sup><br/>	  
+        <input type="checkbox" name="[% name _ 'R' %]" [% IF !pdb_features.$m.$name %] disabled="disabled" [% END %] onclick='js_feature_restrict(this, "select molecule mol[% tmp %]; exclude molecule mol[% tmp %] and residue [% FOREACH p = pdb_features.$m.$name %][% p.resnum %] [% END %];")'></input><sup>Restrict</sup><br/>
+      </td>  
+      [% END %]
+      </td>  
+    </tr>    
+    [% END %]
+
+  </tbody>
+</table>
+
+<br/>
+<br/>
+
+</td>
+</tr>
+</table>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	 
+	// Set up tablesorter, external jquery lib
+	$("#protSearchTable").tablesorter({
+	    'headers': {    	
+            0: { 'sorter': false },
+			1: { 'sorter': false },
+			2: { 'sorter': false },
+			3: { 'sorter': false },
+			4: { 'sorter': false },
+			5: { 'sorter': false },
+			6: { 'sorter': false },
+			7: { 'sorter': false },
+			8: { 'sorter': false },
+			9: { 'sorter': false },
+			10: { 'sorter': false },
+			11: { 'sorter': false },
+			12: { 'sorter': false },
+			13: { 'sorter': false }
+	    }
+	});	
+    
+	// Reduce table size if ie
+	if ($.browser.msie){
+	     $('#protSearchTable').css({width:'92%'});
+    }
+	
+}); 
+
+function check_all(check,cb_name){
+    var no_ele=document.getElementsByTagName('input');
+    for(var i = 0; i < no_ele.length; i++) {
+        if (no_ele[i].type=='checkbox' && no_ele[i].name==cb_name && no_ele[i].checked != check) {
+            //no_ele[i].checked=check;
+
+            //if(!no_ele[i].checked){
+                no_ele[i].click();
+            //}
+        }
+    }
+}
+
+function av_execute(command){
+  document.av.execute(command);
+  window.status = command;
+}
+
+function js_reset(obj){
+  if(obj.checked){
+    av_execute('molecule display '+mol+' on;');
+  }else{
+    av_execute('molecule display '+mol+' off;');
+  }
+}
+
+
+function js_cartoon(obj, schematic){
+  if(obj.checked){
+    av_display(schematic, 'on');   
+  }else{
+    av_display(schematic, 'off');
+  }
+}
+
+function js_display(obj, mol){
+  if(obj.checked){
+    av_execute('molecule display '+mol+' on;');
+  }else{
+    av_execute('molecule display '+mol+' off;');
+    av_display('protein_schematic_'+mol, 'off');
+  }
+}
+
+function av_display(obj, tr){
+  var command = "object display '" + obj + "' " + tr + ";";
+  av_execute(command);
+}
+
+function js_feature(obj, command){
+  if(obj.checked){
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('bond_width 2 current;');
+    //av_execute('center current;');
+  }else{
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('bond_width 1 current;');
+    av_execute('label clear current;');
+  }
+}
+
+function js_ligand(obj, command){
+  if(obj.checked){
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('display cylinders on current;');
+  }else{
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('display cylinders off current;');
+  }
+}
+
+function js_feature_restrict(obj, command){
+  if(obj.checked){
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('bond_width 0 current;');
+    av_execute('select none;');
+  }else{
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('bond_width 1 current;');
+    av_execute('select none;');
+  }
+}
+
+function js_feature_label(obj, command){
+  if(obj.checked){
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('label %R%r current;');
+  }else{
+    av_execute('select none;');
+    av_execute(command);
+    av_execute('label clear current;');
+  }
+}
+
+function js_feature_reset(obj, command){
+    av_execute('select none;');
+ }
+ 
+</script>
+
+
+
+

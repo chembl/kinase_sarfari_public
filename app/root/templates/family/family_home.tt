@@ -1,0 +1,214 @@
+[%# 
+    $Id: family_home.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div class="spacer"></div>	
+
+
+
+<table align="center">
+  <tr valign="top">
+    
+	<td width="550px"> 
+      <img src="[% c.uri_for('/static/images/family/tree.gif') %]" alt="Kinase Tree" usemap="#treemap" border="0" />
+      <p class="subnote">Click on kinase tree branches (e.g. TK) to display further details in Family Analysis table</p>
+    </td>
+	
+    <td width="650px">
+	  
+	  <div class="roundBox" >        
+        <div class="slimBody" >
+          <h1>User Selection</h1>          
+		  <form name="target" method="post" action="[% c.uri_for('/family/treeSearch') %]" enctype="multipart/form-data" >          
+		    <table class="tablesorterSimple" width="700px" border="0" cellpadding="0" cellspacing="1">
+              <thead>
+			    <tr>
+				  <th>&nbsp;</th>
+				  <th>Level 2</th>
+			      <th>Level 3</th>
+				  <th>Level 4</th>				
+                  <th>Domains</th>
+                  <th>ChEMBL Targets</th>
+                  <th>Drug Targets</th>
+			    </tr>
+              <thead>
+              <tbody id="userSelectBody">
+			  </tbody>	
+            </table>         
+		    <input id="userSubmitButton" type="submit" name="submit" value="Start Search" />
+          </form>
+        </div>
+      </div>
+	  
+	  <div class="roundBox">        
+        <div class="slimBody" >
+          <h1>Family Analysis <span id="selectedFamily"></span></h1>          
+		  <form name="target" method="post" action="[% c.uri_for('/family/wheel_search') %]" enctype="multipart/form-data" >          
+		    <table class="tablesorterSimple" width="700px" border="0" cellpadding="0" cellspacing="1">
+              <thead>
+			    <tr>
+				  <th>&nbsp;</th>
+				  <th>Level 3</th>
+				  <th>Level 4</th>
+                  <th>Domains</th>
+                  <th>ChEMBL Targets</th>
+                  <th>Drug Targets</th>				  
+			    </tr>
+              <thead>
+              <tbody id="familyAnalysis">
+			  </tbody>	
+            </table>
+          </form>
+        </div>
+      </div>
+
+    </td>
+  </tr>
+</table>
+
+<map name="treemap">
+  <area href="#" alt="Display 'Other' in Family Analysis table" title="Display 'Other' in Family Analysis table" shape="poly" onClick="level2Search('Other');return false;" coords="278,153, 293,169, 291,240, 291,272, 272,279, 259,287, 242,312, 230,337, 214,337, 211,325, 201,307, 197,273, 176,267, 165,253, 145,235, 130,221, 113,217, 110,215, 100,207, 103,166, 117,161, 171,154, 221,150, 275,151" />
+  <area href="#" alt="Display 'CMGC' in Family Analysis table" title="Display 'CMGC' in Family Analysis table" shape="poly" onClick="level2Search('CMGC');return false;"  coords="175,282, 187,293, 193,318, 199,331, 193,408, 174,412, 166,429, 155,434, 143,451, 137,462, 117,485, 99,478, 82,468, 51,444, 44,419, 41,340, 80,277" />
+  <area href="#" alt="Display 'CAMK' in Family Analysis table" title="Display 'CAMK' in Family Analysis table" shape="poly" onClick="level2Search('CAMK');return false;"  coords="240,372, 267,383, 337,381, 363,402, 381,415, 390,466, 407,490, 403,520, 384,536, 357,551, 328,557, 170,552, 149,526, 154,459, 172,439, 190,420, 206,416, 210,375, 230,368" />
+  <area href="#" alt="Display 'AGC' in Family Analysis table" title="Display 'AGC' in Family Analysis table" shape="poly" onClick="level2Search('AGC');return false;"   coords="447,271, 446,393, 439,405, 389,406, 363,391, 343,372, 316,364, 283,359, 278,348, 265,336, 260,327, 265,297, 283,293, 296,281" />
+  <area href="#" alt="Display 'STE' in Family Analysis table" title="Display 'STE' in Family Analysis table" shape="poly" onClick="level2Search('STE');return false;"   coords="436,120, 449,134, 444,254, 437,262, 339,273, 319,269, 317,263, 298,254, 299,212, 305,197, 309,176, 322,167, 331,163, 347,155, 373,136, 408,115" />
+  <area href="#" alt="Display 'TKL' in Family Analysis table" title="Display 'TKL' in Family Analysis table" shape="poly" onClick="level2Search('TKL');return false;"   coords="301,5, 318,14, 428,19, 436,28, 433,37, 390,45, 355,52, 348,62, 349,141, 328,153, 315,162, 294,156, 291,149, 287,146, 284,139, 253,135, 250,128, 236,120, 228,97, 219,65, 218,0" />
+  <area href="#" alt="Display 'CK1' in Family Analysis table" title="Display 'CK1' in Family Analysis table" shape="poly" onClick="level2Search('CK1');return false;"   coords="129,224, 151,254, 148,265, 34,260, 35,240, 52,226, 100,219" />
+  <area href="#" alt="Display 'TK' in Family Analysis table" title="Display 'TK' in Family Analysis table" shape="poly" onClick="level2Search('TK');return false;"    coords="210,4, 217,99, 218,121, 205,140, 193,144, 93,166, 76,177, 54,173, 17,157, 0,154, 4,0" />
+</map>
+
+<ul id="ajaxError"/>
+
+<script type="text/javascript">
+
+//On document load 
+$(document).ready(function(){
+	userSelectCache();
+    submitDisplay();
+});
+
+//Playing with Ajax
+function level2Search(l2) {			
+	
+    
+	$.ajax({
+       type: "GET",
+       url: "[% c.uri_for('/family/level2Search') %]",
+       data: "level2="+l2,
+	   dataType: "json",
+       success: function(j){    
+           var row = '';    
+           for (var i = 0; i < j.length; i++) {
+               row += '<tr id="row--' + l2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'">  <td class="pointer" onClick="userSelect(this.id)" id="'+ l2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'"><img src="[% c.uri_for('/static/images/general/plus.png') %]" alt="Add to User Selection" title="Add to User Selection" border="0" /></td>  <td>'+ j[i].level3 +'</td>  <td>'+ j[i].level4 +'</td>  <td>'+ j[i].domain_count +'</td>   <td>'+ j[i].starlite +'</td>   <td>'+ j[i].drugstore +'</td>  </tr>';
+           }
+		   $('#familyAnalysis').empty();
+		   $('#familyAnalysis').append(row);
+       },
+	   complete:function(){    
+           colourFamilyTable();
+		   submitDisplay();
+       }
+     });
+
+	$("#selectedFamily").text(' - '+l2);
+}
+
+
+function userSelect(text){
+    var levels = text.split("--");
+	l2 = levels[0];
+    l3 = levels[1];
+	l4 = levels[2];	 	    
+    	
+	$.ajax({
+       type: "GET",
+       url: "[% c.uri_for('/family/userSelect') %]",
+       data: "level2="+l2+"&level3="+l3+"&level4="+l4,
+	   dataType: "json",
+       success: function(j){    
+           var row = '';    
+	       for (var i = 0; i < j.length; i++) {
+               row += '<tr id="userrow--' + l2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'"> <td class="pointer" onClick="deleteThis(this.id)" id="userselect--'+ l2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'" border="0"><img src="[% c.uri_for('/static/images/general/minus.png') %]" alt="Delete from User Selection" title="Delete from User Selection" border="0" /></td> <td>'+ j[i].level2 +'</td> <td>'+ j[i].level3 +'</td>  <td>'+ j[i].level4 +'</td>  <td>'+ j[i].domain_count +'</td>   <td>'+ j[i].starlite +'</td>   <td>'+ j[i].drugstore +'</td>  </tr>';
+           }				
+		
+		   $('#userSelectBody').append(row);
+
+           colourFamilyTable();
+		   submitDisplay();
+       }
+     });
+}
+
+function userSelectCache(){
+      
+  $.ajax({
+       type: "GET",
+       url: "[% c.uri_for('/family/userSelectCache') %]",
+       dataType: "json",
+       cache: false,
+       success: function(j){    
+         var row = '';    
+         for (var i = 0; i < j.length; i++) {
+               row += '<tr id="userrow--' + j[i].level2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'"> <td class="pointer" onClick="deleteThis(this.id)" id="userselect--'+ j[i].level2 +'--'+ j[i].level3 +'--'+ j[i].level4 +'" border="0"><img src="[% c.uri_for('/static/images/general/minus.png') %]" alt="Delete from User Selection" title="Delete from User Selection" border="0" /></td> <td>'+ j[i].level2 +'</td> <td>'+ j[i].level3 +'</td>  <td>'+ j[i].level4 +'</td>  <td>'+ j[i].domain_count +'</td>   <td>'+ j[i].starlite +'</td>   <td>'+ j[i].drugstore +'</td>  </tr>';
+           }        
+    
+       $('#userSelectBody').append(row);
+          colourFamilyTable();
+          submitDisplay();
+       }
+     });
+}
+
+function colourFamilyTable(){
+
+	$.ajax({
+       type: "GET",
+       url: "[% c.uri_for('/family/getSelected') %]",
+	   dataType: "json",
+	   success: function(data){
+           var row = '';    
+		   //$('#familyAnalysis td').css({'background-color':'#ffffff'});
+		   for (var i = 0; i < data.length; i++) {
+		       $('#row--'+data[i]).find('td').css({'background-color':'#74FF74'});		
+           }					
+       }
+     });
+}
+
+function deleteThis(text){	
+    var levels = text.split("--");
+	extra = levels[0];
+	l2    = levels[1];
+    l3    = levels[2];
+	l4    = levels[3];	 	    
+
+	$.getJSON("[% c.uri_for('/family/deleteThis') %]",{level2: l2,level3: l3,level4: l4}, function(j){            		
+		$('#userrow--'+l2+'--'+l3+'--'+l4).remove();
+		$('#row--'+l2+'--'+l3+'--'+l4).find('td').css({'background-color':'#FFFFFF'});
+	    submitDisplay();
+    });
+}
+
+
+function submitDisplay(){
+   if($('#userSelectBody > *').size() == 0){
+       $("#userSubmitButton").hide();   
+   }
+   else{
+       $("#userSubmitButton").show();
+   }
+}
+
+//$("#familyAnalysis").complete(function(request, settings){
+//    colourFamilyTable();		
+//	submitDisplay();	
+//});
+
+$("#ajaxError").ajaxError(function(event, request, settings, error){
+   $(this).append("<li>Error requesting page " + settings.url + " " + error+" </li>");
+ });
+
+</script>
+

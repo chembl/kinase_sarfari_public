@@ -1,0 +1,49 @@
+[%# 
+    $Id: bio_filter.tt 319 2009-10-29 15:48:58Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<table align="center">
+[% SET filters = 5 %][% WHILE filters > 0 %]	
+<tr>
+  <td>
+    <input id="filterid[% filters %]" type="checkbox" name="filterChk[% filters %]" />
+  </td>
+  
+  <td>
+    <select id="type[% filters %]" name="filterAct[% filters %]" onclick="bioFilterOn(this.form,'filterChk[% filters %]')">  
+      <option SELECTED value="All">All</option>
+      <option value="IC50">IC50 (nM)</option>
+      <option value="Inhibition">Inhibition (%)</option>
+      <option value="Kd">Kd (nM)</option>
+      <option value="Ki">Ki (nM)</option>
+      <option value="Actitvity">Actitvity (%)</option>
+      <option value="Selectivity">Selectivity</option>
+      <option value="Log IC50">Log IC50</option>
+      <option value="Ratio">Ratio</option>
+      <option value="Selectivity ratio">Selectivity ratio</option>
+      <option value="Ratio IC50">Ratio IC50</option>
+    </select>
+  </td>
+  
+  <td>
+    <select id="operator[% filters %]" name="filterOp[% filters %]">  
+      <option SELECTED value="NA"></option>
+      <option value="=">=</option>
+      <option value=">">&gt;</option>
+      <option value=">=">&gt;=</option>
+      <option value="<">&lt;</option>
+      <option value="<=">&lt;=</option>
+    </select>
+  </td>
+
+  <td>
+    <input type="text" name="filterVal[% filters %]" size="5" id="text[% filters %]" onchange="validateNumericInput(this.form, this.name, this.value)"/>
+  </td>
+</tr>
+[% filters = filters - 1 %]
+[% END %]
+</table>
+
+

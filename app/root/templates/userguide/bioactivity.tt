@@ -1,0 +1,24 @@
+  <div class="slimBody">
+  
+    <h1>Protein Target Search</h1>
+    <p>The protein target search allows a user apply filters, using 'smart' menus to the target based bioactivity search. This is demonstrated in the workflow below:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/bioactivity2.png') %]" border="0"/>
+
+    <p class="spacer"></p>
+    
+    <h1>Protein Target and Compound Search</h1>
+    <p>It is possible to supply a list of targets and a list of compounds to find experimental activities between them. The following workflow explains how to do this:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/bioactivity3.png') %]" border="0"/>   
+    
+    <p class="spacer"></p>
+    
+    <h1>Compound Search</h1>
+    <p>Activities associated with a set of compounds can be returned. This is demonstrated in the workflow below:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/bioactivity4.png') %]" border="0"/>
+  
+    <p class="spacer"></p>
+    
+    [% PROCESS userguide/bioactivity_table.tt %]
+    
+  </div>
+    

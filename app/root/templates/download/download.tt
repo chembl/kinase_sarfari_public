@@ -1,0 +1,56 @@
+[%# 
+    $Id: download.tt 788 2011-12-15 18:01:02Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+  
+  <div class="slimBody">		
+	
+      <h1>[% c.config.family %] SARfari Downloads</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+          <tr>
+            <th>Description</th>          
+            <th>File</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[% c.config.family %] SARfari compounds. The format of compound.txt file is tab-delimited and stores the compound structure as a SMILES string</td>
+            <td>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_compound.sdf.gz">ks_compound.sdf.gz</a>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_compound.txt.gz">ks_compound.txt.gz</a>
+            </td>
+          </tr>
+          <tr>
+            <td>[% c.config.family %] SARfari bioactivity data (tab-delimited)</td>
+            <td>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_bioactivity.txt.gz">ks_bioactivity.txt.gz</a>
+            </td>
+          </tr>
+          <tr>
+            <td>[% c.config.family %] SARfari protein details (tab-delimited)</td>
+            <td>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_protein.txt.gz">ks_protein.txt.gz</a>
+            </td>
+          </tr>
+          <tr>
+            <td>[% c.config.family %] SARfari protein sequences</td>
+            <td>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_sequence.fa.gz">ks_sequence.fa.gz</a>
+            </td>
+          </tr>
+          <tr>
+            <td>[% c.config.family %] SARfari protein alignment sequences</td>
+            <td>
+              <a href="ftp://ftp.ebi.ac.uk/pub/databases/chembl/KinaseSARfari/latest/ks_aln.txt.gz">ks_aln.txt.gz</a>
+            </td>
+          </tr>
+        </tbody>
+	  </table>
+
+  </div>  
+</div>

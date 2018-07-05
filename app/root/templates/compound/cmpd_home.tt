@@ -1,0 +1,457 @@
+[%# 
+    $Id: cmpd_home.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<script type="text/javascript">
+$(function() {
+      
+  $("#load-molfile").click(function() {
+      $('#smiles-dialog').dialog('close');
+      $('#molfile-dialog').dialog('open');
+  });
+
+  $('#molfile-dialog').dialog({
+    bgiframe: true,
+    autoOpen: false,
+    width: 380,
+    modal: false,
+    position: 'right',
+    resizable: false
+  });
+  
+  $("#load-smiles").click(function() {
+      $('#molfile-dialog').dialog('close');
+      $('#smiles-dialog').dialog('open');
+  });
+
+  $('#smiles-dialog').dialog({
+    bgiframe: true,
+    autoOpen: false,
+    width: 380,
+    modal: false,
+    position: 'right',
+    resizable: false
+  });
+
+  $('#chem_sketch>p').css('color','#132860');
+  $('#chem_sketch>p').css('margin-left','20px');
+  $('#chem_sketch>p').css('margin-right','20px');
+  $('#chem_sketch>p').css('display','inline');
+
+  $('#chem_sketch>p').hover(
+      function(){$(this).css('color','#FF0000')},
+      function(){$(this).css('color','#132860')}
+  );  
+});
+</script>
+
+<table id="searchMenu">
+  <tr>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+    <th><img src="[% c.uri_for('/static/images/general/select.png') %]" /></th>
+  </tr> 
+  <tr>
+    <td id="comp_submenu1"><img src="[% c.uri_for('/static/images/logos/com_struct_srch.png') %]" /><br /><h3>Structure Search</h3></td>
+    <td id="comp_submenu2"><img src="[% c.uri_for('/static/images/logos/com_kw_srch.png') %]" /><br /><h3>Text Search</h3></td>
+    <td id="comp_submenu3"><img src="[% c.uri_for('/static/images/logos/com_analysis.png') %]" /><br /><h3>Compound Analysis</h3></td>
+  </tr>
+</table>
+
+<div id="waitToDisplay">
+
+<div id="smiles-dialog" title="Paste SMILES" class="jq-dialog-popup">
+  <br/>
+  <textarea id="userSmilesId" name="userSmiles" cols="50" rows="3"></textarea>
+  <br/>
+  <br/>
+  <input type="button" onclick="loadSMILES(this.form)" value="Load"></input>
+  <input type="button" onclick="clearSMILES(this.form)" value="Clear"></input>
+</div>
+
+<div id="molfile-dialog" title="Paste Molfile" class="jq-dialog-popup">
+  <br/>
+  <textarea id="userMolfileId" name="userMolfile" cols="50" rows="12"></textarea>
+  <br/>
+  <br/>
+  <input type="button" onclick="loadMolfile()" value="Load"></input>
+  <input type="button" onclick="clearMolfile()" value="Clear"></input>
+</div>
+
+<div id="skipAuotRoundbox" class="dialog"><div class="hd"><div class="c"></div></div><div class="bd"><div class="c"><div class="s"><div id="searchForms">
+    <div class="slimBody">
+      <h1>Compound Search</h1>
+
+      <form method="post" name="compoundForm" action="[% c.uri_for('/compound/structure_search') %]" enctype="multipart/form-data">
+
+      [% PROCESS "shared/validation_error.tt" %]
+
+      <table  class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>User Input</th>
+            <th>Compound Search Type</th>
+            <th>Similarity Cut-Off </th>
+            <th>Compound Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          
+            <td id="chem_sketch">                     
+              <br />
+              <p id="draw-edit" class="sketchLink">Click here to draw/edit structure</p>
+              <!--
+              <p id='load-molfile'>Molfile</p>
+              <p id='load-smiles'>SMILES</p>
+              -->
+              <br/>
+            </td>
+
+            <td>
+        <select id="searchType" name="query_type">
+          <option value="Substructure">Substructure Search</option>
+          <option value="Flexmatch">Flexmatch</option>
+          <option value="Similarity">Similarity</option>
+        </select>
+            </td>
+            <td>
+        <select id="simCutOff" name="cut_off" disabled="disabled">
+          <option value="100">100%</option>
+          <option value="99">&gt;= 99%</option>
+          <option value="97">&gt;= 97%</option>
+          <option value="95">&gt;= 95%</option>
+          <option value="90">&gt;= 90%</option>
+          <option value="85">&gt;= 85%</option>
+          <option value="80">&gt;= 80%</option>
+          <option value="70">&gt;= 70%</option>
+        </select>
+            </td>
+            <td>
+        <select id="databaseType" name="databaseSource">
+          <option value="ALL">All</option>
+          <option value="CHEMBL">ChEMBL</option>
+          <option value="CANDISTORE">Clinical Candidates</option>
+          <option value="DRUGSTORE">Approved Drugs</option>
+          <option value="PDB">PDB</option>
+        </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+        <input type="hidden" name="molfile" value=""></input>
+        <input type="hidden" name="smiles" value=""></input>
+        <input type="hidden" name="chime" value=""></input>
+        <input type="button" onclick="runSearch(this.form)" value="Start Search"></input>
+        <input type="button" onclick="resetForm()" value="Clear Form"></input>
+      </form>
+    </div>
+
+    <div class="slimBody">
+
+    <h1>Text Based Compound Search</h1>
+
+    <form name="compound" method="post" action="[% c.uri_for('/compound/search') %]" enctype="multipart/form-data" >
+
+      [% PROCESS "shared/validation_error.tt" %]
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>User Input</th>
+            <th>Compound Search Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <br/><br/>
+              <textarea cols="30" rows="6"  name="compoundList" ></textarea>
+              <br/><br/>
+              <input type="file" size="20" name="compoundFile">
+              <br/><br/>
+            </td>
+            <td>
+              <select name="compoundType">
+                <option value="regno" selected="selected">Reg. No.</option>
+                <option value="syn">Synonyms</option>
+                <option value="ext">External Reg. No.</option>
+                <option value="domid">Domain Id</option>
+                <option value="domidIC50">Domain Id (IC50 &lt;= 50)</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    <input type="button" onclick="runCompoundSearch(this.form)" value="Start Search"></input>
+    <input type="reset" value="Clear Form" />
+
+    </form>
+    </div>
+
+    <div class="slimBody">
+
+      <h1>Compound Analysis</h1>
+
+      <p>This section of the [% c.config.family %] SARfari system is currently under development</p>
+
+    </div>
+
+</div></div></div></div><div class="ft"><div class="c"></div></div></div>
+
+
+<div class="spacer"></div>
+
+[% IF selected_sets.all %]
+<div class="roundBox">
+
+    <div class="slimBody">
+
+      <h1>Selected Compound Sets</h1>
+
+      <table class="tablesorter" border="0" cellpadding="0" cellspacing="1" >
+        <thead>
+          <tr>
+            <th>Compound Set</th>
+            <th>Date Loaded</th>
+            <th>Query Count</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+        [%- WHILE (ss = selected_sets.next) -%]
+          <tr>
+            [% SET display_type = ss.query_type %]
+             [% IF ss.query_type == 'CANDISTORE' %][% SET display_type = 'Clinical Candidates' %]
+             [% ELSIF ss.query_type == 'DRUGSTORE' %][% SET display_type = 'Approved Drugs' %]
+             [% END %]
+            <td>[% display_type %]</td>
+            <td>[% ss.query_start %]</td>
+            <td>[% ss.query_count %]</td>
+            <td>
+              <select class="sessionSearches">
+                <option selected="selected" value="ignore">Please select....</option>
+                <option value="web_[% ss.job_id %]">Display Results</option>
+                <option value="bio_[% ss.job_id %]">Display Bioactivity Data</option>
+                <option value="sdf_[% ss.job_id %]">Download SDF</option>
+                <option value="txt_[% ss.job_id %]">Download All Data</option>
+                <option value="reg_[% ss.job_id %]">Download Reg. No.</option>
+              </select>
+            </td>
+          </tr>
+        [%- END -%]
+        </tbody>
+      </table>
+
+    </div>
+
+</div>
+[% END %]
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+var GLOBAL_SORTED_ON         = "serregno";
+var GLOBAL_SORT_WAY          = "asc";
+var GLOBAL_FIRST_PAGE        = 1;
+var GLOBAL_BASE_RESULT_URL   = "[% c.uri_for("/compound/results") %]";
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/compound/function") %]";
+
+//Details pop-up
+$('.sketchLink').click(function(){
+    this.target = 'pop_up'
+    this.href = "[% c.uri_for('/') %]/compound/sketch";
+    popUp = window.open(this.href,this.target,'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=550,height=500');
+    popUp.focus();    
+})
+
+$('.sessionSearches').change(function(){
+    //Extra information carried in value, requires splitting
+    var details = this.value.split("_");
+    user_select = details[0];
+    job_id      = details[1];
+    if(user_select != 'ignore'){
+        var url = GLOBAL_BASE_FUNCTION_URL + "/" + user_select + "/" + job_id;
+        location.href = url;
+    }
+});
+
+$('#searchType').change(function(){
+    if(this.value == 'Similarity'){
+        $('#simCutOff').removeAttr("disabled");
+    }
+    else{
+        $('#simCutOff').attr("disabled","disabled");
+    }
+});
+
+$(document).ready(function(){
+
+	document.forms['compoundForm'].formerror.value = "";
+	  
+    var applet = '<applet name="JME" code="JME.class" archive="[% c.uri_for('/jme/') %]JME.jar" width="250" height="250"> You have to enable Java in your browser.<param name="options" value="depict"></applet>'+
+                 '<br/><a href="http://www.molinspiration.com/jme/"><small>JME Editor</a> courtesy of Peter Ertl, Novartis</small>';
+    
+    $('#chem_sketch').append(applet);
+
+    $('#waitToDisplay').css('visibility','visible');
+    
+    // User function select
+    setupMenuDisplay();
+
+    // Read mol from cookie cache  
+    readJMECookie(); 
+});
+
+function fromEditor(smiles,jme) {
+    // this function is called from jme_window
+    // editor fills variable smiles & jme
+    if (smiles=="") {
+      alert ("No molecule transferred");
+      return;
+    }
+    document.cookie = "jme="+jme+";expires=Thu, 31 Dec 2020 00:00:00 GMT; path=/";
+    document.JME.readMolecule(jme);
+  }
+
+  function saveJMECookie() {
+    var jme = document.JME.jmeFile();
+    document.cookie = "jme="+jme+";expires=Thu, 31 Dec 2020 00:00:00 GMT; path=/";
+  }
+
+  function readJMECookie() {
+    var editor = document.JME;
+    if (editor.smiles().length > 0) return; // editing already started
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf("jme=") == 0) {
+        var jme = c.substring(4,c.length);
+        //alert("jme="+jme);
+        editor.readMolecule(jme);
+        return;
+      }
+    }
+  }
+
+  function deleteJMECookie() {
+      document.cookie = "jme=;expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+  }
+   
+  function runSearch(form){
+      var smiles  = document.JME.smiles();
+      var molfile = document.JME.molFile();
+      
+      if (smiles.length < 1) {
+        form.formerror.value = "Please draw compound structure before submitting search";
+        return;
+      }
+      else{
+        // Store mol in cookie cache
+        saveJMECookie();
+        document.compoundForm.smiles.value  = smiles;
+        document.compoundForm.molfile.value = molfile;        
+        document.compoundForm.submit();
+      }
+  }
+
+  function resetForm(){
+      document.getElementById('simCutOff').selectedIndex    = 0;
+      document.getElementById('searchType').selectedIndex   = 0;
+      document.getElementById('databaseType').selectedIndex = 0;
+      document.getElementById('simCutOff').disabled         = true;
+      document.JME.reset();
+      deleteJMECookie(); 
+  }
+  
+  function loadMolfile(form){
+
+	var molfile = $('#userMolfileId').val();
+
+    $.ajax({
+      type: "POST",
+      url: "[% c.uri_for('/compound/convertmolfile') %]",
+	  data: ({data : molfile}),
+      success: function(mol_string){
+    	document.forms['compoundForm'].formerror.value = "";
+
+    	try{
+          document.JME.readMolFile(mol_string);
+          var testload = String(document.JME.jmeFile());
+          if(testload.length > 0){
+      	     saveJMECookie();
+           }
+           else{
+             document.forms['compoundForm'].formerror.value = "Failed to load molfile";
+             document.JME.reset();
+           }
+        }
+        catch(err){            
+          document.forms['compoundForm'].formerror.value = "Failed to parse molfile";
+          document.JME.reset();
+        }
+        
+		$('#molfile-dialog').dialog('close');
+      },
+      error: function(){         
+        document.forms['compoundForm'].formerror.value = "Failed to convert molfile";
+        document.JME.reset();
+        $('#molfile-dialog').dialog('close');
+      }     
+    });
+  }
+  
+  function clearMolfile(){
+    $('#userMolfileId').val("");
+  }
+
+  function loadSMILES(form){
+
+    var smiles = $('#userSmilesId').val();
+
+    $.ajax({
+      type: "POST",
+      url: "[% c.uri_for('/compound/convertsmiles') %]",
+      data: ({data : smiles}),
+      success: function(mol_string){
+    	document.forms['compoundForm'].formerror.value = "";
+
+          try{
+            document.JME.readMolFile(mol_string);
+            var testload = String(document.JME.jmeFile());
+            if(testload.length > 0){
+               saveJMECookie();
+             }
+             else{
+               document.forms['compoundForm'].formerror.value = "Failed to load SMILES";
+               document.JME.reset();
+             }
+          }
+          catch(err){            
+            document.forms['compoundForm'].formerror.value = "Failed to parse SMILES";
+            document.JME.reset();
+          }
+        
+		$('#smiles-dialog').dialog('close');
+      },
+      error: function(){
+        document.forms['compoundForm'].formerror.value = "Failed to convert SMILES";
+        document.JME.reset();
+        $('#smiles-dialog').dialog('close');
+      } 
+    });
+}
+
+function clearSMILES(){
+  $('#userSmilesId').val("");
+}
+	  
+</script>
+                         

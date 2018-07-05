@@ -1,0 +1,89 @@
+[%# 
+    $Id: cmpd_display.tt 602 2010-04-12 09:50:59Z sarfari $
+    
+    SEE LICENSE
+%]
+
+[% IF sketch %]
+<!-- 
+<input id="user_smiles_string" type="text" name="user_smiles" value="" /><input type="button" onclick="loadSmiles()" value="Load Smiles"></input>
+<br/>
+<br/>
+ -->
+[% END %]
+
+<center>
+
+<applet name="JME" code="JME.class" archive="[% c.uri_for('/jme/') %]JME.jar" width="450" height="380"> You have to enable Java in your browser.
+</applet>
+<br/>
+<a href="http://www.molinspiration.com/jme/"><small>JME Editor</a> courtesy of Peter Ertl, Novartis</small>
+<small><a href="javascript:openJMEHelp();" onMouseOver="window.status='Show basic JME editor help'; return true;" onMouseOut="window.status=''; return true;">JME help</a>
+
+[% IF sketch %]
+<br/>
+<br/>
+<input type="button" onclick="transferCompound()" value="Transfer Compound"></input>
+[% ELSE %]
+<br/>
+<br/>
+<input type="button" onclick="saveJMECookie()" value="Use As Query"></input>
+<input type="button" onclick="closeDisplay()" value="Close"></input>
+
+[% END %]
+
+</center>                        
+
+<script type="text/javascript" charset="utf-8">
+
+  [% IF sketch %]
+   $(document).ready(function(){
+      readJMECookie();
+   });
+  
+   function transferCompound() {
+    var smiles  = document.JME.smiles();
+    
+    var jme = document.JME.jmeFile();
+    if (smiles == "") {
+      alert("Nothing to transfer");
+    }
+    else {
+      opener.fromEditor(smiles,jme);
+      window.close();
+    }
+  }
+  [% ELSIF molfile %]
+    document.JME.readMolFile("[% molfile %]");
+  [% END %]
+
+  function saveJMECookie() {
+	var jme = document.JME.jmeFile();
+	document.cookie = "jme="+jme+";expires=Thu, 31 Dec 2020 00:00:00 GMT; path=/";
+    window.close();
+  }
+
+  function readJMECookie() {
+    var editor = document.JME;
+	if (editor.smiles().length > 0) return; // editing already started
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+	   var c = ca[i];
+	   while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	     if (c.indexOf("jme=") == 0) {
+	       var jme = c.substring(4,c.length);
+	       editor.readMolecule(jme);
+	       return;
+	   }
+    }
+  }
+
+  function openJMEHelp() {
+    window.open("http://www.molinspiration.com/jme/help/jme2008hints.html","jmehelp","toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=510,height=675,left=400,top=20");
+  }
+
+  function closeDisplay() {
+	    window.close();
+  }
+</script>
+            

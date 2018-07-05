@@ -1,0 +1,43 @@
+#-----------------------------------------------------------------------------#
+#                          Kinase Sarfari License                             #
+#-----------------------------------------------------------------------------#
+#                              EMBL-EBI 2009                                  #
+#-----------------------------------------------------------------------------#
+
+Kinase Sarfari is free software provided by the chEMBL Group at the EBI. 
+The software may be freely distributed.
+
+The software is provided as is without any guarantees or warranty.
+
+Although the author has attempted to find and correct any bugs in the free 
+software, the author is not responsible for any damage or losses of 
+any kind caused by the use or misuse of the programs.
+
+For more information, please send an email to sarfari-help@ebi.ac.uk
+
+#-----------------------------------------------------------------------------#
+#                           JME Molecular Editor                              #
+#-----------------------------------------------------------------------------#
+
+Kinase Sarfari makes use of the JME Molecular Editor to view and sketch 
+chemical structures. Please note that the JME source code is not included as 
+part of the Kinase Sarfari package, however the JME jar file is included for 
+the convenience of end users installing the system. Use of JME Molecular Editor 
+comes with the following license notice:
+
+JME Editor courtesy of Peter Ertl, Novartis
+
+For more information visit: http://www.molinspiration.com/jme/
+
+#-----------------------------------------------------------------------------#
+#                            OpenAstexViewer                                  #
+#-----------------------------------------------------------------------------#
+
+Kinase Sarfari makes use of the OpenAstexViewer to view protein structural 
+information. OpenAstexViewer is distributed under the terms of the LGPL license
+and comes with the following copyright notices:
+
+AstexViewer Copyright (C) 1999-2007 Astex Therapeutics Ltd.
+OpenAstexViewer Copyright (C) 2007-2009 Mike Hartshorn 
+
+For more information visit: http://www.openastexviewer.net

@@ -1,0 +1,760 @@
+/* SARfari CSS  */
+/* 
+	$Id: sarfari.2.css 647 2010-08-24 15:08:31Z sarfari $
+	SEE LICENCE
+*/
+
+/*
+  Colour changes:
+  #67899D Blue
+  #385D8E Gray/Blue
+  #0E3E32 Biofocus green
+*/
+
+
+body {
+    font: normal 10pt "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+#bodyContent {
+    clear: both;
+    padding-top: 5px;
+    margin: 10px 30px 10px 30px;
+    padding-bottom: 45px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#tundraHome {
+    position: relative;
+    text-align: left;
+	background:  url("../images/home/tundra_home2.png");
+    height: 400px;
+}
+
+
+#tundraTitle{
+	position:absolute;
+	left:50px;
+	top:100px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#tundraTitleText{
+	text-align: left;
+    font: normal 80px "Helvetica ", Verdana, Arial, Helvetica, sans-serif;
+    color: #385d8e;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#tundraSystemSearchForm{
+	display: inline;	
+}
+
+#tundraTitleSubtext{
+	text-align: left;
+    font: normal 30px "Helvetica ", Verdana, Arial, Helvetica, sans-serif;
+    color: #385d8e;
+    margin-left: 20px; 
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#tundraSearch {
+	float: right;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+
+#tundraTextbox { 
+    font: normal 10px "Helvetica ", Verdana, Arial, Helvetica, sans-serif;
+    background-color:#fff; 
+    border:1px solid; 
+    border-color: #BFBFBF;
+}
+
+
+#tundraMenu {
+	position:absolute;
+	left:20px;
+	top:350px;
+    display: inline;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+	height: 40px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#tundraMenu  ul { 
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+	height: 40px;
+}
+
+#tundraMenu  li { 
+    position: relative;
+	float: left;
+    display: inline;
+    padding-right: 50px;
+	padding-left: 50px;
+	padding-top: 10px;
+    font-size: 20px;
+	height: 40px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+/* Menu specific link colours */
+#tundraMenu a:link {
+    color: #385D8E;
+}
+
+#tundraMenu a:visited {
+    color: #385D8E;
+}
+
+#tundraMenu a:hover {
+    color: #FFFFFF;
+}
+
+
+#tundraHeader {
+    position: relative;
+    text-align: left;
+	background:  url("../images/home/tundra_header.png");
+    height: 40px;
+}
+
+#footer{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: normal 11px "Helvetica", Verdana, Arial, Helvetica, sans-serif;
+    color: #AAA;
+    text-align: center;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#wellcome{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    font: normal 25px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #AAA;
+    text-align: right;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    float: right;
+    background-position:right;
+    background-repeat: no-repeat;
+}
+
+#embl{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    font: normal 25px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #AAA;
+    text-align: left;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+    /*border: 1px solid red; /* Position Testing */
+    /*background:  url("../images/general/embl.png");*/
+    background-position:left;
+    background-repeat: no-repeat;
+}
+
+li,lu {
+   list-style: none;
+}
+
+/* Subtitle section - may be used for breadcrumbs */
+#subMenu{
+    position: relative;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    height: 5px;	
+	background:  url("../images/home/tundra_submenu.png");
+}
+
+
+/* Application Menu Bar */
+
+#headerTitle{
+    width: 200px;
+    float: left;
+    padding-left: 10px;
+	font: normal 30px "Helvetica ", Verdana, Arial, Helvetica, sans-serif;
+    color: #385d8e;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#headerTitle a:link{
+    color: #385d8e;
+}
+
+#headerTitle a:hover{
+    color: #385d8e;
+}
+
+#headerTitle a:visited{
+    color: #385d8e;
+}
+
+#headerMenu {
+    float:right;
+    position: relative;
+    display: inline;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+	height: 40px;
+    /*background-color: #0000CC;*/
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#headerMenu  ul { 
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+	height: 40px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+
+#headerMenu  li { 
+    position: relative;
+	float: left;
+    display: inline;
+    padding-right: 25px;
+	padding-left: 25px;
+	padding-top: 12px;
+    font: normal 14px "Helvetica ", Verdana, Arial, Helvetica, sans-serif;
+	height: 40px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#headerMenu  li#menuSubmit { 
+    position: relative;
+    display: inline;
+    padding: 0px;
+    margin:0px;
+	padding-top: 5px;
+    padding-right: 5px;
+	padding-left: 5px;
+	margin-right: 5px;    	
+    /*border: 1px solid blue; /* Position Testing */
+}
+
+/* Menu specific link colours */
+#headerMenu a:link {
+    color: #385d8e;
+}
+
+#headerMenu a:visited {
+    color: #385d8e;
+}
+
+#headerMenu a:hover {
+    color: #FFFFFF;
+}
+
+#headerMenu a.selected{
+    color: #ffffff;
+}
+
+/* selected subsection menu colour */
+#menu_highlight { 
+    color: #385d8e;
+}
+
+.chimeBox {
+    border: 1px solid #000;
+    width: 300px;
+    background-color: #FFFFFF; 
+}
+
+
+/* Body Header section */
+#bodyHeader {
+    position: relative;
+    text-align: left;
+	border-bottom:1px solid #CDCDCD;
+	margin-top:20px;
+	height: 25px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#bodyHeaderMenu {
+    float:right;
+    position: relative;
+    display: inline;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#bodyHeaderMenu ul { 
+    padding: 0;
+    margin: 0;
+    margin-left: 4px;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+
+#bodyHeaderMenu li { 
+    position: relative;
+	float: left;
+    display: inline;
+    padding-right: 5px;
+	padding-left: 5px;
+    font-size: 1em;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#bodyHeaderMenu form { 
+    position: relative;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#bodyHeaderTitle{
+    float: left;    
+	font-size: 1.5em;
+    margin:0pt;
+	font-weight: 400;
+	color: #333333;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#version{
+    padding: 0;
+    margin: 0;
+    padding-left: 20px;
+	display:inline;
+    font: normal 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #000000;
+    height: 15px;
+	width: 100px;	
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#glpglogo{
+    display:inline;
+    margin: 1px;    
+    padding: 0px 50px 10px 0px;
+    border: 0;
+    background-image: url("../images/general/chembl.png");
+    background-position:center;
+    background-repeat: no-repeat;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+
+/* Application Title - located in header */
+
+
+
+#searchMenu {
+    padding: 0;
+	margin-bottom: 30px;
+	margin-left: auto;
+    margin-right: auto;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#searchMenu td,th {
+    padding-right: 40px;
+	padding-left: 40px;
+	text-align: center;
+    font: normal 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    /*border: 1px solid red; /* Position Testing */
+}
+
+#searchMenu td {
+	cursor:pointer;cursor:hand
+}
+
+/*
+  This is kinase sarfari blast css nedds revisiting
+*/
+.blastWindow{
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 850px;
+    border: 1px solid #AAA;
+}
+
+.blastImage{
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    border: 1px solid #AAA;
+}
+
+#queryBar{
+    height: 3px;
+    width: 550px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 25px;
+    background: #000;
+    padding: 0px;
+    font: normal 1px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#blastHit{
+    height: 2px;
+    margin-bottom: 5px;
+    padding: 0px;
+    font: normal 1px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#blastTable{
+    position: relative;
+    text-align: center;
+    width: 700px;
+}
+
+
+/* Hyperlinks */
+
+a:link {
+    color: #385D8E;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #385D8E;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+
+
+/* RoundBox - http://15daysofjquery.com/wrap-it-up-pretty-corners/13/ */
+
+.dialog {
+     max-width:800px;
+     _width: expression(Math.min(parseInt(this.offsetWidth), 800 ) + "px"); 
+     margin:0px auto;
+     min-width:20em;
+     text-align: left;
+}
+
+.dialog .hd .c,
+.dialog .ft .c {
+    font-size:1px; /* ensure minimum height */
+    height:10px;
+}
+
+.dialog .ft .c {
+    height:15px;
+}
+
+.dialog .hd {
+    background:transparent url("../images/roundbox/tl.png") no-repeat 0px 0px;
+}
+
+.dialog .hd .c {
+    background:transparent url("../images/roundbox/tr.png") no-repeat right 0px;
+}
+
+.dialog .bd {
+    margin:0;
+    padding:0;
+    background:transparent url("../images/roundbox/ml.png") repeat-y 0px 0px;
+}
+
+.dialog .bd .c {
+    background:transparent url("../images/roundbox/mr.png") repeat-y right 0px;
+}
+
+.dialog .bd .c .s {
+    margin:0px 8px 0px 4px;
+    background:#F7F7F7 url("../images/roundbox/ms.png") repeat-x 0px 0px;
+    padding:1em;
+}
+
+.dialog .ft {
+    background:transparent url("../images/roundbox/bl.png") no-repeat 0px 0px;
+}
+
+.dialog .ft .c {
+    background:transparent url("../images/roundbox/br.png") no-repeat right 0px;
+}
+
+/* roundbox formatting */
+
+
+.dialog h2 {
+    font-size: 1.15em;
+    margin: 20px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    /*border-bottom: 1px solid #C7C7C7; /* Position Testing */
+}
+
+.dialog h3 {
+    font-size: 1em;
+    margin:0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.dialog .subtitle{
+	padding: 0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+}
+
+.dialog .title{
+	padding: 0px 0px 0px 3px;
+	margin:0px 0px 0px 0px;
+    background-color: #E1E1E1;
+	border: 1px solid #C7C7C7;
+}
+
+.dialog textarea {
+    margin: 0;
+    padding: 0;
+}
+
+.dialog form{
+    margin: 10px 0px 0px 0px;
+    padding: 0;
+    text-align: center;
+}
+
+.dialog input{
+    margin: 0;
+    padding: 0;    
+}
+
+.dialog ul{
+    margin: 0;
+    padding: 0;
+}
+
+.dialog  #autoimg{
+    display:inline;
+}
+
+.dialog li {
+   margin: 5px 25px;
+}
+
+.dialog table {
+   /*margin: 20px 0px 0px 0px;*/
+   padding:0px;
+}
+
+.dialog span{
+     width:100%;
+	 text-align: center;
+}
+
+
+html>body .dialog pre {
+   font-size:1.1em;
+}
+
+.slimBody{
+    width: 100%;
+	margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    margin-left: auto;
+    margin-right: auto;
+	/*border: 1px solid red; /* Position Testing */
+}
+
+.superslimbody{
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.spacer{
+   margin: 20px 0px 20px 0px;    
+}
+
+.miniReportSpacer{
+   margin: 5px 0px 5px 0px;    
+}
+
+/* Alignment container */
+.scroll{
+    overflow: scroll;
+}
+
+/* Quick Search  Cells */
+.quickCell{
+    width: 200px;
+    margin: 0;
+}
+
+/* FAQ questions */
+.question{
+    font-weight: bold;
+}
+
+.answer{
+    margin-left: 25px;
+    margin-top: 10px;
+}
+
+/* Mini report card */
+table.miniReport {
+	    clear:both;
+        font-family:arial;
+        
+        margin: 0px 0px 0px 0px;
+        font-size: 8pt;
+        width: 100%;
+        text-align: left;
+}
+
+table.miniReport tbody td {
+        color: #3D3D3D;
+        padding: 4px 4px 4px 10px;
+        background-color: #FFF;        
+}
+
+table.miniReport tbody th {
+        color: #3D3D3D;		
+        padding: 4px 4px 4px 10px;
+        background-color: #FFF;        
+}
+
+table.miniReport .sortOn {
+        background-color: #E6EEEE;     
+}
+
+.redText{
+    color: #FF0000;
+}
+
+.contentLeft{
+	text-align: left;
+}
+
+.userguide_list li {
+	list-style: disc;
+}
+
+.userguide_image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.textareaError {
+	width: 600px;
+	height: 14px;
+	padding: 1px;
+	border: 0px solid #cccccc;
+	background-color: #F7F7F7;
+	padding: 5px;
+	text-align: center;
+	color: red;
+	font: normal 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	resize:none;
+	overflow:hidden;
+}
+
+.textareaErrorWhite {
+	width: 600px;
+	height: 24px;
+	padding: 1px;
+	border: 0px solid #cccccc;
+	background-color: #ffffff;
+	padding: 5px;
+	text-align: center;
+	color: red;
+	font: normal 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	resize:none;
+	overflow:hidden;
+}
+
+div.demo { padding: 10px; width: 250px }
+
+.jq-dialog-popup p {
+	text-align: left;
+}
+
+.jq-dialog-popup-heading{
+	font-weight: bold;	
+}
+
+#waitToDisplay{
+	visibility: hidden;	
+}
+
+.pointer{
+	cursor:pointer;cursor:hand
+}
+
+.subnote{
+    text-align: center;
+	font: normal 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.resource_item{
+	padding-left: 0px;
+	background-image: url(../images/general/list.png);
+	background-repeat: no-repeat;
+	background-position: 0 .5em;
+	list-style: none outside none;
+	padding-right:1px;
+	padding-top:8px;
+	padding-left:5px;
+    padding-bottom:4px;
+	cursor:pointer;cursor:hand
+}
+
+.resource_not_selected{
+	background-image: url(../images/general/list_white.png);
+}
+
+.resource_item a:link{
+	text-decoration: none;
+	color: #006666;
+	font-size:9pt;
+}
+
+.resource_item a:visited{
+	text-decoration: none;
+	color: #006666;
+	font-size:9pt;
+}
+
+.resource_item a:hover{
+	text-decoration: none;
+	color: #006666;
+	font-size:9pt;
+}
+
+.chembl_resources{
+    padding:0px 0px 0px 2px;
+    margin: 5px 0px 5px 0px;
+	font-family:Arial Unicode MS,Lucida Sans Unicode,Arial,Helvetica,sans-serif;
+}

@@ -1,0 +1,61 @@
+    <h1>Family Analysis Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>+</th>
+      <td>Click '+' to add family to User Selection table</td>
+    </tr>
+    <tr>
+      <th>Level 3, Level 4</th>
+      <td>Kinone classification, where Level 4 is the most detailed level in classification hierarchy</td>
+    </tr>
+    <tr>
+      <th>Domains</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy</td>
+    </tr>
+    <tr>
+      <th>ChEMBL Targets</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy associated with ChEMBL compounds</td>
+    </tr>            
+    <tr>
+      <th>Drug Targets</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy associated with FDA approved compounds</td>
+    </tr>            
+    </table>
+   </p>
+  
+    <p class="spacer"></p>
+  
+    <h1>User Selection Column Explanations</h1>
+    <p>
+    <table  class="tablesorterSimple" >
+    <tr>
+      <th>Column Name</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td>Click 'x' to remove family from User Selection table</td>
+    </tr>
+    <tr>
+      <th>Level2, Level 3, Level 4</th>
+      <td>Kinone classification, where Level 4 is the most detailed level in classification hierarchy</td>
+    </tr>
+    <tr>
+      <th>Domains</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy</td>
+    </tr>
+    <tr>
+      <th>ChEMBL Targets</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy associated with ChEMBL compounds</td>
+    </tr>            
+    <tr>
+      <th>Drug Targets</th>
+      <td>Number of kinase protein domains found at Level 4 of kinase classification hierarchy associated with FDA approved compounds</td>
+    </tr>            
+    </table>
+   </p>  

@@ -1,0 +1,72 @@
+  <div class="slimBody">
+    
+    <h1>Binding Site Definitions</h1>
+    <p>
+    One of the utilities of Kinase SARfari is to enable comparison of kinases based on the physicochemical properties of their binding sites, rather than their overall sequence homology. The original goals of this work are listed below:
+    <ul class="userguide_list">
+      <li>To identify a set of alternative binding site definitions using empirical information derived from public Kinase/Ligand complexes</li>
+      <li>To map these definitions onto the complete Master alignment of all protein kinases Kinase SARfari</li>
+      <li>To apply these definitions for comparison and clustering of kinases based on binding-site physicochemical properties</li>
+    </ul>
+    </p>
+    
+    <p>
+    505 Kinase/Ligand complexes from the PDB were independently assessed. For each complex, a profile of residue contribution to ligand binding was generated (this assessed whether a residue contributes to binding of the ligand, and how much surface area is involved). The figure below shows the profiles for all 505 complexes. The more a residue contributes to the surface of interaction with the ligands, the darker the blue representing this residue  
+    <br/>
+    <br/>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/binding2.png') %]" border="0"/>
+    </p>
+    
+    <p>
+    Based on these binding site profiles, the complexes were clustered into 11 footprints using hierarchical clustering. The figure below shows the number of complexes adopting the 11 footprints. The 'canonical' cluster is a large cluster containing 443 complexes, and representing a general definition of the canonical binding site. It can be split into a number of more specific sub-clusters in more detailed expert analysis.
+    <br/>
+    <br/>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/binding3.png') %]" border="0"/>
+    </p>
+    
+    <p>    
+    The table below provides a description of each binding site. 
+    <table  class="tablesorterSimple" >
+     <tr>
+      <th>Binding Site Name</th>
+      <th>Binding Site Definition</th>
+    </tr>   
+    <tr>
+      <th>Canonical binding site</th>
+      <td>Representing the canonical binding footprints adopted by ATP and most 'typical' ATP-competitive inhibitors</td>
+    </tr>
+    <tr>
+      <th>Gleevec-like binding site</th>
+      <td>Representing the non-canonical binding footprint adopted by the drug Imatinib in complex with its target ABL kinase (see for example 1IEP). This footprint also is adopted by some P38-alpha inhibitors (see for example 1KV2)</td>
+    </tr>
+    <tr>
+      <th>Non-canonical P38-alpha binding site</th>
+      <td>Representing a unique footprint so far only observed in two P38-alpha complexes: P38-alpha with Dihydroquinolinone (1OVE) and a pyridazine inhibitor (1YQJ)</td>
+    </tr>
+    <tr>
+      <th>MEK2-like Non-competitive inhibitor binding site</th>
+      <td>Representing the non-ATP competitive binding footprint adopted by non-competitive inhibitors that bind alongside ATP (see e.g. 1S9J)  </td>
+    </tr> 
+    <tr>
+      <th>PKA (complexed with Rho-Kinase Inhibitors and peptides) -like binding site</th>
+      <td>Representing binding footprint adopted by small molecule inhibitors, and PKI-alpha peptide (see e.g. 1Q8T and 1SVG)</td>
+    </tr>
+       
+  </table>
+   </p>
+
+    <p class="spacer"></p>
+
+    <h1>Analyse Site Similarity and Neighbourhood</h1>
+    <p>
+    Neighbourhood Density (ND) is a measure that reflects the physicochemical space of a protein binding site as compared to other proteins: if many proteins exist with highlight similar binding sites to a particular target, this target will have a high Neighbourhood Density, and thus more likely to show cross-reactivity with other targets.
+    </p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/binding1.png') %]" border="0"/>
+    <p>When entering search terms not that each newline represents a new search term. For example "map kinase" on one line produces a more restrictive search than having "map" and "kinase" on separate lines.</p>
+    
+    <p class="spacer"></p>
+ 
+    [% PROCESS userguide/binding_site_table.tt %]
+    
+  </div>
+  

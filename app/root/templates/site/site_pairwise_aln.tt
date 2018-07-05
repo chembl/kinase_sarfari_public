@@ -1,0 +1,74 @@
+[%# 
+    $Id: site_pairwise_aln.tt 602 2010-04-12 09:50:59Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    Pairwise Alignment: [% IF site_details.description.length > 50 %][% site_details.description.substr(0,48) %][% ELSE %][% site_details.description %][% END %]
+  </div>
+  
+</div>
+
+<table id="protSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+<thead>
+  <tr>
+    <th>Position</th>
+    <th>Annotation</th>
+    <th>Weight</th>
+    <th>Target 1</th>
+    <th>Residue 1</th>
+    <th>Distance</th>
+    <th>Residue 2</th>
+    <th>Target 2</th>
+  </tr>
+</thead>
+<tbody>
+[% FOREACH sa = site_aln.nsort('pos') %]
+[% SET alnpos = sa.aln_pos %]
+<tr>
+  <td>[% alnpos %]</td>
+  <td>[% features.$alnpos.join(', ') %]</td>
+  <td>[% sa.weighting | format('%.2f') %]</td>
+  <td>[% sa.gene_domain_name %]</td>
+  <td>[% IF sa.residue != sa.residue2 %]<span class="redText">[% END %][% sa.residue %]</span></td>
+  <td>[% IF sa.residue != sa.residue2 %]<span class="redText">[% END %][% sa.distance %]</span></td>
+  <td>[% IF sa.residue != sa.residue2 %]<span class="redText">[% END %][% sa.residue2 %]</span></td>
+  <td>[% sa.gene_domain_name2 %]</td>
+</tr>
+[% END %]
+</tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function(){ 
+
+	// Set up tablesorter, external jquery lib
+	$("#protSearchTable").tablesorter({
+		'textExtraction': 'complex',
+		'sortList': [[0,0]]			
+   	});	
+    
+	// Reduce table size if ie
+	if ($.browser.msie){
+	     $('#protSearchTable').css({width:'92%'});
+    }
+	 
+	// Do not display setNumericCols
+	// Appears to bug in digit columns starting with 0 
+	$("#setNumericCols").hide();
+	
+	
+	// Hightlight row when hover 
+	$('#protSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+}); 
+</script>

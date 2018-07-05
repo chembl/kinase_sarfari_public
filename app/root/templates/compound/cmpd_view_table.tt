@@ -1,0 +1,49 @@
+[%# 
+    $Id: cmpd_view_table.tt 778 2011-12-01 18:34:35Z sarfari $
+    
+    SEE LICENSE
+%]
+
+<table id="compSearchTable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+  <thead>
+    <tr>
+	  <th id="sarregno" class="qtip-above" title="Image of compound and link to compound report card">Compound</th>
+      <th id="idmaps" class="qtip-above" title="List of compound sources and source ids, e.g. TCMDC-123462">Sources</th>
+      <th id="synonyms" class="qtip-above" title="List of compound synonyms">Synonyms</th>
+	  [% IF comp_search_details.query_type.search('Similarity') -%]
+	  <th id="similarity" class="qtip-above" title="Tanimoto similarity score between query and target structures">Similarity</th>
+	  [% END -%]
+	  <th id="molweight" class="qtip-above" title="Molecular weight of compound">Mol Weight</th>
+	  <th id="alogp" class="qtip-above" title="ALogP value for compound">ALogP</th>
+	  <th id="psa" class="qtip-above" title="Polar Surface Area">PSA</th>
+	  <th id="num_ro5_violations" class="qtip-above" title="Number of Rule-of-Five Violations">#Ro5 Vio.</th>
+    </tr>
+  </thead>
+  <tbody>
+    [%- WHILE (cd = comp_details.next) -%]    
+	<tr>
+	  <td>
+         <a href="[% c.uri_for('/') %]report/compound/[% cd.sarregno %]">
+          <img src="[% c.uri_for('/') %]/compound/image/[% cd.sarregno %].png" border="0px" alt="[% cd.sarregno %] image"/>
+         </a>
+	     <br/>
+             [% IF cd.sarregno < 2000000 %]
+                <a href="[% c.config.chembl_siteurl %]/index.php/compound/inspect/CHEMBL[% cd.sarregno %]">CHEMBL[% cd.sarregno %]</a>
+             [% ELSE %]
+                [% cd.sarregno %]
+             [% END %]
+      </td>
+      <td>[% cd.idmaps %]</td>
+      <td>[% cd.synonyms %]</td>
+	  [% IF comp_search_details.query_type.search('Similarity') -%]
+	  <td>[% cd.similarity %]</td>
+	  [% END -%]
+	  <td>[% IF cd.molweight .defined %][% cd.molweight | sarfari_round %][% END %]</td>
+	  <td>[% IF cd.alogp.defined %][% cd.alogp | sarfari_round %][% END %]</td>
+	  <td>[% IF cd.psa.defined %][% cd.psa | sarfari_round %][% END %]</td>
+	  <td>[% cd.num_ro5_violations %]</td>
+    </tr>
+    [%- END -%]
+  </tbody>
+</table>
+

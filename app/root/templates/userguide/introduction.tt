@@ -1,0 +1,115 @@
+<div class="slimBody">
+  <h1>What is Kinase SARfari?</h1> 
+  <p>
+    Kinase SARfari is an integrated chemogenomics research and discovery workbench for Protein Kinases. It is both biology and chemistry aware and provides a central resource for Protein Kinase knowledge. 
+  </p>
+
+  <p class="spacer"></p>
+
+  <h1>Goals</h1>
+  <p>
+    Kinase SARfari was designed and implemented with the following goals in mind:
+  <ul class="userguide_list">
+    <li>To integrate target, 3D structure, compound and screening data for Protein Kinases in one Chemogenomics knowledgebase</li>
+    <li>To provide a unique view on Kinases and Kinase chemistry by leveraging both public and proprietary data </li>
+    <li>To enable direct and easy linking of chemical and biological spaces by making all Kinase SARfari data accessible via:</li>
+    <ol>
+      <li>Compound-similarity and substructure searching</li>
+      <li>Target keyword and sequence similarity searching</li>
+      <li>Providing compound and screening data through target initiated queries</li>
+      <li>Providing target and screening data through compound initiated queries</li>
+      <li>To enable selectivity and cross reactivity analysis for Protein Kinase targets</li>
+    </ol>
+    <li>To provide user-friendly access to the data via web-based application, utilising familiar search tools such as chemical structure sketching and BLAST.</li>
+    <li>To integrate with internal tools and resources such as Spotfire</li>
+  </ul>
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>System</h1>
+  <p>
+    Kinase SARfari is an Oracle 11g database equipped with the Symyx/MDL Direct chemical cartridge (version 6.2) and is provided with a web-based interface.  
+  </p>
+
+  <p class="spacer"></p>
+
+  <h1>Data in Kinase SARfari</h1> 
+  <p>
+    Kinase SARfari contains protein, compound and screening data from a number of diverse sources. This section outlines the sources of the major data components in the database.  
+  </p>
+
+  <p class="spacer"></p>
+  
+  <h1>Kinase Sequences and Sequence Alignment</h1>
+  <p> 
+    Kinase SARfari contains >950 Protein Kinase domain sequences, covering all parts of the Kinome. Most of the sequences are human kinases, including polymorphisms and splice variants, but the set also includes a number of orthologous sequences. 
+Since the sequence set contains many versions and isoforms of the same genes, they are clustered into approximately 600 groups, each representing one sequence from the Kinome. 
+  </p>
+    
+  <p class="spacer"></p>
+
+  <h1>ChEMBL Data</h1>
+  <p>
+    ChEMBL curated database of SAR data from the literature. Compound structures and SAR tables were abstracted from medicinal chemistry literature, and curated by a team of experts. Kinase SARfari contains all compounds which have been screened against a protein kinase, the SAR data for the compound/kinase assays, all other reported experimental data for these compounds including ADMET data, functional data and screening data against non-kinases were reported. As part of the curation, most data points were normalised to allow easier comparison of data from different assays (e.g. all IC50 and Ki data is converted to nM values). Publication references are provided for all data.
+ChEMBL currently contains data from the following journals:
+    <ul class="userguide_list">
+      <li>Journal of Medicinal Chemistry: 1980 onwards</li>
+      <li>Bioorganic Medicinal Chemistry Letters: 1990 onwards</li>
+    </ul>
+  </p>
+  
+  <p>
+  The data in ChEMBL is classified into three major classes: Biochemical data:
+  <table  class="tablesorterSimple" >
+    <tr>
+      <th>Biochemical Data (B)</th>
+      <td>Data measuring binding of compound to a molecular target, e.g. Ki, IC50, Kd</td>
+    </tr>
+    <tr>
+      <th>Functional Data (F)</th>
+      <td>Data measuring the biological effect of a compound, e.g. %cell death in a cell line, rat weight </td>
+    </tr>
+    <tr>
+      <th>ADMET Data (A)</th>
+      <td>ADME and Tox data e.g. t1/2, oral bioavailability, LD50</td>
+    </tr>
+  </table>
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>Targets in ChEMBL</h1>
+  <p>
+  As part of the data curation for ChEMBL, protein molecular targets associated with an assay were identified and their amino-acid sequences captured. For the Protein Kinase cut of the data, the protein Kinase sequences were appended to the master alignment. Kinase compounds from ChEMBL may also have been screened against non-Protein Kinase targets. These are supplied independently within the database.
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>Compounds in ChEMBL</h1>
+  <p>
+  Kinase SARfari ChEMBL compounds are of interest for two major reasons: firstly, they provide an overview of the screening space for Protein Kinases in the medicinal chemistry literature, and secondly, because the are all bioactive compounds which have been synthesized and their synthesis and assay routes are directly traceable. This makes them a very high value first pass screening library.
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>Drugs: FDA approved drugs</h1>
+  <p>
+  FDA approved Protein Kinase inhibitors are reported in Kinase SARfari, together with their Trade names and chemical structures.
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>3D structures from the PDB</h1>
+  <p>
+  A snapshot of Protein Kinase experimental structures from the RCSB Protein DataBank are provided and analyzed in Kinase SARfari. All Protein Kinase domains are extracted, together with bound ligands where available and mapped onto 'parent' protein Kinase sequence from the master alignment.
+  </p>
+  
+  <p class="spacer"></p>
+
+  <h1>Structural Superposition</h1>
+  <p>
+  For every snapshot of the PDB provided within Kinase SARfari, a complete all-by-all comparison is calculated for the Protein Kinase catalytic domain structures. This is to enable analysis and visualization of conformational variation within the Protein Kinase family.
+  </p>
+  
+</div>

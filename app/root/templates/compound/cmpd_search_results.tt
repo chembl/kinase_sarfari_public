@@ -1,0 +1,161 @@
+[%# 
+    $Id: cmpd_search_results.tt 524 2010-01-21 12:00:42Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div id="bodyHeader">
+  
+  <div id="bodyHeaderTitle">
+    Compound Search Results: [% comp_search_details.query_count || 0 %] Hit[% IF comp_search_details.query_count != 1 %]s[% END %]
+  </div>
+    
+  <ul id="bodyHeaderMenu">
+    <li>
+       <input id="userView" type="checkbox" [% IF view == "mini"%]checked="checked"[% END %]></input>Mini Report Card View
+    </li>
+  [% IF pager.last_page > 1 %]
+    <li>
+	  [% IF pager.last_page > 1 %]
+      <a href="[% c.uri_for('/') %]compound/results/[% jobid %]/[% pager.first_page %]/[% sorted_on %]/[% sort_way %]/[% view %]"> << <a>
+	  [% END %]
+    </li>
+    <li>
+	  [% IF pager.current_page > 1 %]
+      <a href="[% c.uri_for('/') %]compound/results/[% jobid %]/[% pager.previous_page %]/[% sorted_on %]/[% sort_way %]/[% view %]"> < <a>
+	  [% END %]
+    </li>
+    <li>
+	[% IF pager.last_page > 1 %]
+	<select id="userPager" name="page">        
+	  [% SET counter = 1 -%]
+	  [% WHILE counter <= pager.last_page -%]
+  	  <option [% IF counter == pager.current_page %]selected="selected"[% END %] value="[% counter %]">[% counter %]</option>
+	  [% counter = counter+1 -%]
+	  [% END -%]
+    </select>
+	[% ELSE %]
+      [% pager.current_page %]
+	[% END %]
+    </li>
+    <li>
+	  [% IF pager.current_page < pager.last_page %]
+      <a href="[% c.uri_for('/') %]compound/results/[% jobid %]/[% pager.next_page %]/[% sorted_on %]/[% sort_way %]/[% view %]"> > <a>
+	  [% END %]
+    </li>
+    <li>
+	  [% IF pager.last_page > 1 %]
+      <a href="[% c.uri_for('/') %]compound/results/[% jobid %]/[% pager.last_page %]/[% sorted_on %]/[% sort_way %]/[% view %]"> >> <a>
+	  [% END %]
+    </li>
+  [% END %]
+    
+	[% IF comp_search_details.query_count > 0 %]
+    <li>
+	  <form action="[% c.uri_for('/') %]compound/function/[% jobid %]" name="cmpdSearchFuncForm">
+	  <select id="cmpdSearchFuncSelect" name="cmpdSearchFunc">        
+  	    <option selected="selected" value="ignore">Please select....</option>
+		<option value="bio">Bioactivity Data Filter</option>
+		<option value="sdf">Download SDF</option>
+		<option value="txt">Download Data (tab-delimited)</option>
+		<option value="reg">Download Reg. No.</option>		
+	  </select>
+	  </form>
+    </li>
+    [% END %]
+  </ul>
+ 
+</div>
+
+[% PROCESS $cmpd_view  %]
+
+<script type="text/javascript" charset="utf-8">
+var GLOBAL_SORTED_ON         = "[% sorted_on %]";
+var GLOBAL_PAGE              = [% pager.current_page %];
+var GLOBAL_SORT_WAY          = "[% sort_way %]";
+var GLOBAL_VIEW              = "[% view %]";
+var GLOBAL_JOBID             = [% jobid %];
+var GLOBAL_BASE_RESULT_URL   = "[% c.uri_for("/compound/results") %]";
+var GLOBAL_BASE_FUNCTION_URL = "[% c.uri_for("/compound/function") %]";
+var GLOBAL_FIRST_PAGE        = 1;
+
+$(document).ready(function(){
+	 
+	 // Turn hover links (only in mini reports)	 
+	 $('td.tips').cluetip({splitTitle: '|', hoverClass:'roundBox'});
+	 
+	 // Set up tablesorter view, not actually using tablesorter.js
+	 pseudo_tablesorter();
+	 
+	 // Reduce table size if ie
+	 if ($.browser.msie){
+	     $('#compSearchTable').css({width:'95%'});
+     }
+
+    // Trigger for drop-down menu pager
+    $('#userPager').change(function(){
+	    var new_page = this.value;
+        var url = GLOBAL_BASE_RESULT_URL + "/" + GLOBAL_JOBID + "/" + new_page + "/" + GLOBAL_SORTED_ON + "/" + GLOBAL_SORT_WAY + "/" + GLOBAL_VIEW;
+        location.href = url;
+    })
+	
+    // Hightlight row when hover 
+	$('#compSearchTable tbody tr').hover(
+	    function () {
+			$(this).find("td").css({'background-color':'#E8E8E8'}); 
+        },
+        function () {
+		    $(this).find("td").css({'background-color':'white'});        
+    });
+	
+	// User function select 
+    $('#cmpdSearchFuncSelect').change(function(){
+	    var user_select = this.value;
+		if(user_select != 'ignore'){
+            var url = GLOBAL_BASE_FUNCTION_URL + "/" + user_select + "/" + GLOBAL_JOBID;
+            location.href = url;
+		}
+    })
+		
+	// Change user view 
+    $('#userView').click(function(){
+	    GLOBAL_VIEW = (GLOBAL_VIEW == 'tab') 
+		    ? 'mini'
+			: 'tab';
+
+        var url = GLOBAL_BASE_RESULT_URL + "/" + GLOBAL_JOBID + "/" + GLOBAL_PAGE + "/" + GLOBAL_SORTED_ON + "/" + GLOBAL_SORT_WAY + "/" + GLOBAL_VIEW;
+        location.href = url;
+    })
+
+	
+}); 
+
+// Does not do any sorting just sets up table to provide consistent look
+// Sorting is carried out server side
+function pseudo_tablesorter() {
+    
+	// Not required in mini report card view
+	$('.tableViewOnly').hide();
+	
+	$("thead tr th:not(:first)").addClass('header');
+	
+    if(GLOBAL_SORT_WAY == 'asc'){
+        $("#"+GLOBAL_SORTED_ON).addClass('headerSortDown');
+	}
+	else{
+        $("#"+GLOBAL_SORTED_ON).addClass('headerSortUp');
+	}
+	
+	$("thead tr th:not(:first)").click(function(){
+		var sort_way = (GLOBAL_SORTED_ON == this.id) 
+		    ? (GLOBAL_SORT_WAY == 'asc') 
+			   ? 'desc'
+			   : 'asc'
+			: 'asc';
+	    
+		var new_sort_on = this.id;		
+        var url = GLOBAL_BASE_RESULT_URL + "/" + GLOBAL_JOBID + "/" + GLOBAL_FIRST_PAGE + "/" + new_sort_on + "/" + sort_way + "/" + GLOBAL_VIEW;
+        location.href = url;
+	});
+}
+</script>

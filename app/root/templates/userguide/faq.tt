@@ -1,0 +1,33 @@
+  <div class="slimBody">
+    <h1>Frequently Asked Questions</h1> 
+  
+    <br/>
+    <h3>Q: What browser does Kinase SARfari run on?</h3>
+    <p>
+      <i>
+      Kinase SARfari should work on most recent browsers. However it has primarily been developed and tested on Internet Explorer 6.x/7.x and on Mozilla Firefox 2.x/3.x and Safari 4.x 
+      <br/><br/>     
+      Some users have reported issues with the compound structure applet when using Mac OSX 10.6 (Snow Leopard). We are currently looking into this issue.
+      </i>
+    </p>
+    
+    <br/>
+    <h3>Q: What plug-ins or other software do I need installed on my computer to use the Kinase SARfari interface fully?</h3>
+    <p><i>
+      The compound and 3D structure viewers are applets which require Java 1.5 and the browsers to have Java pluggin installed.  
+      <br/><br/> 
+      Please enable cookies in your browser as these are used by the site, for example storing user drawn compound structures.
+    </i></p>
+    
+    <br/>
+    <h3>Q: Who do I contact if I have a question regarding data in the Kinase Sarfari system?</h3>
+    <p><i>
+    If you have a data content related question please contact: <b><a href="mailto:sarfari-help@ebi.ac.uk">sarfari-help</a></b>
+    </i></p>
+
+    <br/>
+    <h3>Q: Who do I contact if I want to report a bug in the Kinase Sarfari system?</h3>
+    <p><i>
+    If you experience any problems or identify a bug please contact: <b><a href="mailto:sarfari-help@ebi.ac.uk">sarfari-help</a></b>
+    </i></p>
+  </div>

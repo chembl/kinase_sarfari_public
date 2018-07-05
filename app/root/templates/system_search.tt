@@ -1,0 +1,66 @@
+[%# 
+    $Id: system_search.tt 504 2010-01-14 12:16:22Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+  
+  <div class="slimBody">
+  
+  <h1>SARfari System Search Results</h1>
+  <p><b>'[% query %]'</b> has returned the following results:</p>
+
+    <table id="compSearchTable" class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1" >
+      <thead>
+        <tr>
+	      <th>Data Type</th>
+	      <th>Result Count</th>
+          <th>Display</th>						
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Protein Targets</td>
+          <td>
+          [% dom_ids.size || 0 %]
+          </td>
+          <td>
+          [% IF dom_ids.size > 0 -%]
+            <input type="button" onclick="document.target.submit();" value="Display Protein Results"></input>  
+          [% ELSE -%]
+          NA 
+          [% END -%]
+          </td>
+        </tr>
+        <tr>
+          <td>Compound Targets</td>
+          <td>
+          [% sarregnos.size || 0 %]
+          </td>
+          <td>
+          [% IF sarregnos.size > 0 -%]  
+            <input type="button" onclick="document.compound.submit();" value="Display Compound Results"></input>
+          [% ELSE -%]
+          NA 
+          [% END -%]
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+   [% IF dom_ids.size > 0 -%]  
+          <form name="target" method="post" action="[% c.uri_for('/protein/search') %]" enctype="multipart/form-data" >
+            <input type="hidden" name="targetList" value="[% query %]"></input>
+            <input type="hidden" name="targetType" value="all"></input>
+          </form>
+   [% END -%]
+
+   [% IF sarregnos.size > 0 -%]  
+          <form name="compound" method="post" action="[% c.uri_for('/compound/search') %]" enctype="multipart/form-data" >
+            <input type="hidden" name="compoundList" value='[% sarregnos.join("\n") %]'></input>
+            <input type="hidden" name="compoundType" value="regno"></input>
+          </form>
+   [% END -%]

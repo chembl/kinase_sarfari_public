@@ -1,0 +1,24 @@
+[%# 
+    $Id: bio_crossreactivity.tt 156 2009-08-25 11:05:35Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+  
+  <h1>Cross Reactivity Results</h1>
+  
+  <p>Text file contains compound cross reactivity data for [% compshare.keys.size %] [% c.config.family %] domains</p>
+  
+  <a href="[% c.uri_for('/static/spotfire/cross_reactivity_tmplt.sft') %]">
+      <img src="[% c.uri_for('/static/images/general/spotfire_download.png') %]" alt="Spotfire Template" border="0" />
+  </a>	  
+  <span class="dataText">Spotfire Template</span>
+  
+
+  <a href="[% c.uri_for('/download_text/') %][% results_file %]">
+    <img src="[% c.uri_for('/static/images/general/text_download.png') %]" alt="Text Download" border="0" />
+  </a>
+  <span class="dataText">Cross Reactivity Results</span>
+				  
+</div>

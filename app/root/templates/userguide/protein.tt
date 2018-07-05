@@ -1,0 +1,25 @@
+  <div class="slimBody">
+    
+    <h1>Protein Report Card</h1>
+    <p>The target report is a one page portal collating information about a target, and providing a single point for linking to all data associated with a target including summary data, screening data, compounds, etc. An example report card is displayed below.</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/protein_report.png') %]" border="0"/>
+     
+    <p class="spacer"></p>
+    
+    <h1>Keyword Search</h1>
+    <p>Perform a text based search against all names, accessions, synonyms and descriptions of all targets (using All fields option). The following workflow explains how to perform a text-based search:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/protein1.png') %]" border="0"/>
+    <p>When entering search terms not that each newline represents a new search term. For example "map kinase" on one line produces a more restrictive search than having "map" and "kinase" on separate lines.</p>
+    
+    <p class="spacer"></p>
+    
+    <h1>BLAST Search</h1>
+    <p>Full BLAST searching is available against all kinase domains. The following workflow explains how to perform a BLAST search:</p>
+    <img class="userguide_image"src="[% c.uri_for('/static/images/userguide/protein2.png') %]" border="0"/> 
+
+    <p class="spacer"></p>
+
+    [% PROCESS userguide/protein_table.tt %]
+    
+  </div>
+  

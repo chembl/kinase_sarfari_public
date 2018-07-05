@@ -1,0 +1,330 @@
+[%# 
+    $Id: compound.tt 795 2012-07-02 09:11:12Z mdavies $
+    
+    SEE LICENSE
+%]
+
+<div class="roundBox">
+  
+  <div class="slimBody">		
+	
+  
+      <h1>Properties</h1>
+
+	  <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>          
+		  <th>Registration Number</th>
+          <td>[% sarregno %]</td>
+		  <th>Formula</th>
+          <td>[% IF prop_rs.get_column('molformula').defined %][% prop_rs.get_column('molformula') %][% ELSE %]NA[% END %]</td>		  
+          <td rowspan="6" align="center">          
+            <img onclick="compoundPopUp('[% c.uri_for('/') %]/compound/display/[% sarregno %]')" src="[% c.uri_for('/') %]/compound/image/[% sarregno %].png" />
+            <br/>
+             [% IF sarregno < 2000000 %]
+             <a href="[% c.config.chembl_siteurl %]/index.php/compound/inspect/CHEMBL[% sarregno %]">CHEMBL[% sarregno %]</a>
+             [% ELSE %]
+             No link to ChEMBLdb
+             [% END %]
+          </td>
+        </tr>					
+        <tr>
+          <th>Mol. Weight</th> 
+          <td>[% IF prop_rs.get_column('molweight').defined %][% prop_rs.get_column('molweight') | sarfari_round %][% ELSE %]NA[% END %]</td>
+          <th>Num Ro5 Violations</th>
+          <td>[% IF prop_rs.property.num_ro5_violations.defined %][% prop_rs.property.num_ro5_violations %][% ELSE %]NA[% END %]</td>
+        </tr>
+		<tr>
+          <th>ALogP</th>
+          <td>[% IF prop_rs.property.alogp.defined %][% prop_rs.property.alogp | sarfari_round %][% ELSE %]NA[% END %]</td>
+          <th>Pass Rule of 3</th>
+          <td>[% IF prop_rs.property.ro3_pass.defined %][% prop_rs.property.ro3_pass %][% ELSE %]NA[% END %]</td>
+        </tr> 
+        <tr>
+          <th>Num H Donors</th>
+          <td>[% IF prop_rs.property.hbd.defined %][% prop_rs.property.hbd %][% ELSE %]NA[% END %]</td>
+          <th>MedChem Friendly</th>
+          <td>[% IF prop_rs.property.med_chem_friendly.defined %][% prop_rs.property.med_chem_friendly %][% ELSE %]NA[% END %]</td>
+        </tr> 
+        <tr>
+          <th>Num H Acceptors</th>
+          <td>[% IF prop_rs.property.hba.defined %][% prop_rs.property.hba %][% ELSE %]NA[% END %]</td>
+          <th>PSA</th>
+          <td>[% IF prop_rs.property.psa.defined %][% prop_rs.property.psa | sarfari_round %][% ELSE %]NA[% END %]</td>
+        </tr>
+        <tr>
+          <th>Approved Drug</th>
+          <td>[% IF comd_rs.drugstore  > 0 %]Y [% IF sarregno == 38380 %](approved only in Japan)[% END %][% ELSE %]N[% END %]</td>
+          <th>Clinical Candidate</th>
+          <td>[% IF comd_rs.candistore > 0 %]Y [% ELSE %]N[% END %]</td>
+        </tr>
+        </thead>
+	  </table>
+
+
+      [% IF (comd_rs.drugstore > 0)&&(sarregno != 38380) %]
+      <div class="spacer"></div>
+
+      <h1>Approved Drug Features</h1>
+
+        <table align='center'>
+          <tr>
+          <td>
+            <a href='http://chembl.blogspot.com/2009/08/updated-drug-icons.html'>
+            <img border='0' src='[% c.config.chembl_siteurl %]/index.php/compound/icon/CHEMBL[% sarregno %]' alt='CHEMBL[% sarregno %] compound icon' usemap='#iconmap' />
+            </a>
+          </td>
+          </tr>
+        </table>
+      [% END %]
+
+
+      <div class="spacer"></div>
+
+      <h1>Representations</h1>
+      [% USE wrap %]
+      
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Smiles</th>
+          <td class="leftalign">[% prop_rs.get_column('smiles') FILTER wrap(80) -%]</td>
+        </tr>
+        <tr>
+          <th>InChi</td>
+            <td class="leftalign">
+              [% prop_rs.get_column('inchi') FILTER wrap(80) -%]
+            </td>
+        </tr>
+        <tr>
+          <th>InChi Key</td>
+            <td class="leftalign">[% prop_rs.get_column('inchi_key') %]</td>
+        </tr>
+        </thead>
+      </table>
+    
+
+      <div class="spacer"></div>
+
+      <h1>Forms</h1>
+
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <tr>
+          <th>Parent</th>
+          <th colspan="[% children.size - 1%]">Salt Forms</th>
+        </tr>
+        <tr>
+          <td [% IF sarregno == prop_rs.get_column('parent_sarregno') %]class="cellHighlight"[% END %]>
+		    <a  href="[% c.uri_for('/') %]report/compound/[% prop_rs.get_column('parent_sarregno') %]">[% prop_rs.get_column('parent_sarregno') %]</a>
+		  </td>					
+		  [% IF children.size - 1 >= 1%]
+            [% FOREACH salt = children %]
+			  [% NEXT IF salt.sarregno == prop_rs.get_column('parent_sarregno') %]
+          <td [% IF sarregno == salt.sarregno %]class="cellHighlight"[% END %]>
+		    <a href="[% c.uri_for('/') %]report/compound/[% salt.sarregno %]">[% salt.sarregno %]</a>
+		  </td>
+   	         [% END %]
+          [% ELSE %]
+          <td>[% query %] has no salts</td>
+          [% END %]                    
+        </tr>
+      </table>
+
+
+      <div class="spacer"></div>
+ 
+      <h1>Synonyms</h1>
+
+	  <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Registration Number</th>
+          <th>Synonyms</th>
+        </tr>
+        <tr>
+          <td>[% sarregno %]</td>
+          <td>[% synonyms.keys.sort.join(', ') %]</td>
+        </tr>
+        </thead>
+	  </table>
+
+
+      <div class="spacer"></div>
+
+	  <h1>Approved Drug Summary</h1>
+      
+	  [% IF drugstore  %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Drug Names</th>		  
+		  <th>Protein Targets</th> 
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+		  <td>[% drugstore %]</td>
+		  <td>
+           [% FOREACH d2d IN drug2domain  -%]
+            <a href="[% c.uri_for('/') %]report/protein/[% d2d.dom_id %]">[% d2d.gene_domain_name %]</a>            
+           [% END -%]
+	      </td>
+        </tr>
+        </tbody>		
+	  </table>
+	  [% ELSE %]
+	  <br/>
+	  No Approved Drug data linked to [% sarregno %]
+      [% END -%]
+
+
+      <div class="spacer"></div>
+
+      <h1>Clinical Candidate Summary</h1>
+
+      [% IF candistore  %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Trade Name</th>
+          <th>INN</th>
+          <th>Year (USAN/US Approval)</th>
+          <th>Company</th>
+          <th>Phase</th>
+          <th>Mechanism of Action</th>
+          <th>Mechanism of Action Modifier</th>
+          <th>Protein Targets</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>[% candistore.trade_name %]</td>
+          <td>[% candistore.usan_inn %]</td>
+          <td>[% candistore.usan_year %] [% candistore.approval_year_us %] </td>
+          <td>[% candistore.company.company_name %]</td>
+          <td>[% candistore.highest_phase %]</td>
+          <td>[% candistore.mechanism_of_action %]</td>
+          <td>[% candistore.mechanism_of_action_modifier %]</td>
+          <td>
+           [% FOREACH c2d IN candi2domain  -%]
+            <a href="[% c.uri_for('/') %]report/protein/[% c2d.dom_id %]">[% c2d.gene_domain_name %]</a>
+           [% END -%]
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      [% ELSE %]
+      <br/>
+      No Clinical Candidate data linked to [% sarregno %]
+      [% END -%]
+
+
+      <div class="spacer"></div>
+
+      <h1>3D Structure Summary</h1>
+
+      [% IF pdb  %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th>Px</th>
+          <th>Code</th>
+          <th>Resolution &#197</th>
+          <th>R-Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        [%- FOREACH p IN pdb -%]
+        <tr>
+     	   <td>[% p.sunid_px %]</td>
+	       <td>
+	         <a href="[% c.config.external_url.PDBe %][% p.pdb_code %]">[% p.pdb_code %]:[% p.pdb_chain %]</a>
+	       </td>
+	       <td>[% p.resolution | format('%.2f') %]</td>
+	       <td>[% p.r_value  | format('%.2f') %]</td>   
+        </tr>
+        [% END %]
+        </tbody>    
+      </table>
+
+      <center><a href="[% c.uri_for('/') %]structure/pdblig/[% sarregno %]">Go to structure summary pages</a></center>
+      [% ELSE %]
+      <br/>
+      No 3D Structure data linked to [% sarregno %]
+      [% END -%]
+
+      
+      <div class="spacer"></div>
+
+      <h1>Bioactivity Summary</h1>
+
+	  <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead>
+        <tr>
+          <th></th>
+          <th colspan="4">Biochemical</th>
+          <th>Functional</th>
+          <th colspan="3">ADMET</th>                    
+        </tr>
+        <tr>
+          <th>Source</th>
+          <th>IC50</th>
+          <th>Ki</th>
+		  <th>pA2</th>
+          <th>All</th>                    
+          <th>All</th>
+          <th>t&#189;</th>
+          <th>F</th>
+          <th>All</th>
+        </tr>
+        <tr>
+  	      <th>ChEMBL</th>
+          <td>[% IF bio_rs.bio_ic50 > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/B/[% sarregno %]/IC50">[% bio_rs.bio_ic50 %][% ELSE %]0[% END %]</td>
+          <td>[% IF bio_rs.bio_ki > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/B/[% sarregno %]/Ki">[% bio_rs.bio_ki %][% ELSE %]0[% END %]</td>          
+          <td>[% IF bio_rs.bio_pa2 > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/B/[% sarregno %]/pA2">[% bio_rs.bio_pa2 %][% ELSE %]0[% END %]</td>
+		  <td>[% IF bio_rs.bio_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/B/[% sarregno %]/All">[% bio_rs.bio_all %][% ELSE %]0[% END %]</td>
+          <td>[% IF bio_rs.func_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/F/[% sarregno %]/All">[% bio_rs.func_all %][% ELSE %]0[% END %]</td>
+          <td>[% IF bio_rs.admet_thalf > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/A/[% sarregno %]/thalf">[% bio_rs.admet_thalf %][% ELSE %]0[% END %]</td>
+          <td>[% IF bio_rs.admet_f > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/A/[% sarregno %]/F">[% bio_rs.admet_f %][% ELSE %]0[% END %]</td>          
+          <td>[% IF bio_rs.admet_all > 0 %] <a href="[% c.uri_for('/') %]bioactivity/report/compound/chembl/A/[% sarregno %]/All">[% bio_rs.admet_all %][% ELSE %]0[% END %]</td>
+        </tr>	
+        </thead>	
+	  </table>
+      
+	  <center>
+      <a href="[% c.uri_for('/') %]report/profile/[% sarregno %]">View Protein Target Profile for [% sarregno %]</a>
+      </center>
+	  
+      <div class="spacer"></div>
+    
+      <h1>References</h1>
+      
+	  [% IF doc_rs.size > 0 %]
+      <table class="tablesorterSimple" border="0" cellpadding="0" cellspacing="1">
+        <thead> 
+        <tr>
+          <th>CBID</th>
+          <th>Preparation</th>
+          <th>Source</th>
+          <th>Reference</th>
+          <th>Pubmed</th>
+        </tr>
+        [% FOREACH d IN doc_rs %]
+        <tr>
+          <td>[% d.cmpb_id %]</td>
+          <td>[% d.batch_id %]</td>
+          <td>[% d.source %]</td>
+          <td>[% d.star_doc.journal %] [% d.star_doc.year %]; [% d.star_doc.volume %]([% d.star_doc.issue %]) [% d.star_doc.first_page %]-[% d.star_doc.last_page %]</td>
+          <td>[% IF d.star_doc.pubmed_id %]<a href="http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=pubmed&cmd=Retrieve&list_uids=[% d.star_doc.pubmed_id %]">[% d.star_doc.pubmed_id %]</a>[% ELSE %]na[% END %]</td>
+        </tr>
+        [% END %]                  
+        </thead>
+	  </table>
+	  [% ELSE %]
+	  <br/>
+	  No Reference data linked to [% sarregno %]
+	  [% END %]
+                  
+    </div>	
+	
+</div>

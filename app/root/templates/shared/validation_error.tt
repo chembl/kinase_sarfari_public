@@ -1,0 +1,3 @@
+<center>
+  <textarea class="textareaError" cols="30" rows="1" name="formerror" readonly="readonly" ></textarea>
+</center>
